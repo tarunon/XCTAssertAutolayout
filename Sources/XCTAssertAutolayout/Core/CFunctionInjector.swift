@@ -13,20 +13,22 @@ import Foundation
 let RTLD_DEFAULT = UnsafeMutableRawPointer(bitPattern: -2)
 
 enum CFunctionInjector {
-    private static var injected_functions: [UnsafeMutableRawPointer: Int64] = [:]
-    private static func assert_function_not_injected(_ origin: UnsafeMutableRawPointer) {
-        assert(!injected_functions.keys.contains(origin))
-    }
-    private static func stack_injected_function(_ origin: UnsafeMutableRawPointer, _ new_instruction: Int64) {
-        let originI64 = origin.assumingMemoryBound(to: Int64.self)
-        injected_functions[origin] = originI64.pointee
-        originI64.pointee = new_instruction
-    }
-    private static func pop_injected_function(_ origin: UnsafeMutableRawPointer) {
-        guard let original_instruction = injected_functions.removeValue(forKey: origin) else { return }
-        
-        let originI64 = origin.assumingMemoryBound(to: Int64.self)
-        originI64.pointee = original_instruction
+    private enum injected_functions {
+        private static var storage: [UnsafeMutableRawPointer: Int64] = [:]
+        fileprivate static func assert_function_not_injected(_ origin: UnsafeMutableRawPointer) {
+            assert(!storage.keys.contains(origin))
+        }
+        fileprivate static func stack_injected_function(_ origin: UnsafeMutableRawPointer, _ new_instruction: Int64) {
+            let originI64 = origin.assumingMemoryBound(to: Int64.self)
+            storage[origin] = originI64.pointee
+            originI64.pointee = new_instruction
+        }
+        fileprivate static func pop_injected_function(_ origin: UnsafeMutableRawPointer) {
+            guard let original_instruction = storage.removeValue(forKey: origin) else { return }
+            
+            let originI64 = origin.assumingMemoryBound(to: Int64.self)
+            originI64.pointee = original_instruction
+        }
     }
     
     /// Inject c function to c function.
@@ -36,12 +38,12 @@ enum CFunctionInjector {
     ///
     /// - Parameters:
     ///   - symbol: c function name.
-    ///   - target: c function pointer.`.
+    ///   - target: c function pointer.
     static func inject(_ symbol: String, _ target: UnsafeRawPointer) {
         assert(Thread.isMainThread)
         
         guard let origin = dlsym(RTLD_DEFAULT, symbol) else { return }
-        assert_function_not_injected(origin)
+        injected_functions.assert_function_not_injected(origin)
 
         // make the memory containing the original function writable
         let pageSize = sysconf(_SC_PAGESIZE)
@@ -59,7 +61,7 @@ enum CFunctionInjector {
         // 0xe9 is the x86 opcode for an unconditional relative jump.
         let instruction: Int64 = 0xe9 | Int64(offset) << 8
         
-        stack_injected_function(origin, instruction)
+        injected_functions.stack_injected_function(origin, instruction)
     }
     
     /// Reset function injection.
@@ -71,6 +73,6 @@ enum CFunctionInjector {
         
         guard let origin = dlsym(RTLD_DEFAULT, symbol) else { return }
         
-        pop_injected_function(origin)
+        injected_functions.pop_injected_function(origin)
     }
 }
