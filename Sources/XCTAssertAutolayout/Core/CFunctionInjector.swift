@@ -34,7 +34,7 @@ enum CFunctionInjector {
     ///
     /// - Parameters:
     ///   - symbol: c function name.
-    ///   - target: c function pointer.`.
+    ///   - target: c function pointer.
     static func inject(_ symbol: UnsafePointer<Int8>!, _ target: UnsafeRawPointer) {
         assert(Thread.isMainThread)
         
