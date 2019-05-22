@@ -27,17 +27,22 @@ enum CFunctionInjector {
         var selfPtr: UnsafeMutablePointer<uintptr_t>
     }
     
-    private static var injected_functions: [Int: __int64_t] = [:]
-    private static func assert_function_not_injected(_ origin: UnsafeMutablePointer<__int64_t>) {
-        assert(!injected_functions.keys.contains(Int(bitPattern: origin)))
-    }
-    private static func stack_injected_function(_ origin: UnsafeMutablePointer<__int64_t>, _ new_address: __int64_t) {
-        injected_functions[Int(bitPattern: origin)] = origin.pointee
-        origin.pointee = new_address
-    }
-    private static func pop_injected_function(_ origin: UnsafeMutablePointer<__int64_t>) {
-        guard let original_offset = injected_functions.removeValue(forKey: Int(bitPattern: origin)) else { return }
-        origin.pointee = original_offset
+    private enum injected_functions {
+        private static var storage: [Int: __int64_t] = [:]
+        private static func key(from origin: UnsafeMutablePointer<__int64_t>) -> Int {
+            return Int(bitPattern: origin)
+        }
+        fileprivate static func assert_function_not_injected(_ origin: UnsafeMutablePointer<__int64_t>) {
+            assert(!storage.keys.contains(key(from: origin)))
+        }
+        fileprivate static func stack_injected_function(_ origin: UnsafeMutablePointer<__int64_t>, _ new_address: __int64_t) {
+            storage[key(from: origin)] = origin.pointee
+            origin.pointee = new_address
+        }
+        fileprivate static func pop_injected_function(_ origin: UnsafeMutablePointer<__int64_t>) {
+            guard let original_offset = storage.removeValue(forKey: key(from: origin)) else { return }
+            origin.pointee = original_offset
+        }
     }
     
     /// Inject swift function to c function.
@@ -53,7 +58,7 @@ enum CFunctionInjector {
         
         let RTLD_DEFAULT = UnsafeMutableRawPointer(bitPattern: -2)
         guard let origin = dlsym(RTLD_DEFAULT, symbol)?.assumingMemoryBound(to: __int64_t.self) else { return }
-        assert_function_not_injected(origin)
+        injected_functions.assert_function_not_injected(origin)
 
         // make the memory containing the original function writable
         let pageSize = sysconf(_SC_PAGESIZE)
@@ -75,7 +80,7 @@ enum CFunctionInjector {
         // 0xe9 is the x86 opcode for an unconditional relative jump.
         let instruction = 0xe9 | offset << 8
         
-        stack_injected_function(origin, instruction)
+        injected_functions.stack_injected_function(origin, instruction)
     }
     
     /// Reset function injection.
@@ -88,6 +93,6 @@ enum CFunctionInjector {
         let RTLD_DEFAULT = UnsafeMutableRawPointer(bitPattern: -2)
         guard let origin = dlsym(RTLD_DEFAULT, symbol)?.assumingMemoryBound(to: __int64_t.self) else { return }
         
-        pop_injected_function(origin)
+        injected_functions.pop_injected_function(origin)
     }
 }
