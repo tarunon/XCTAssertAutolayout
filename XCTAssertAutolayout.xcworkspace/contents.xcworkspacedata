@@ -2,7 +2,7 @@
 <Workspace
    version = "1.0">
    <FileRef
-      location = "absolute:/Users/tarunon/Documents/XCTAssertAutolayout/XCTAssertAutolayout.xcodeproj">
+      location = "group:XCTAssertAutolayout.xcodeproj">
    </FileRef>
    <FileRef
       location = "group:XCTAssertAutolayoutExample/XCTAssertAutolayoutExample.xcodeproj">
