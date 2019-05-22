@@ -9,19 +9,14 @@
 import Foundation
 
 enum CFunctionInjector {
-    private struct original_function {
-        var pointer: UnsafeMutablePointer<__int64_t>
-        var original_offset: __int64_t = 0
-        
-        func reset() {
-            pointer.pointee = original_offset
-        }
-    }
-    
     // Ref: https://academy.realm.io/jp/posts/sash-zats-swift-swizzling/
     private struct swift_func_wrapper {
         var trampoline_ptr: UnsafeMutablePointer<uintptr_t>
         var function_object: UnsafeMutablePointer<swift_func_object>
+        
+        var c_function_pointer: UnsafeMutableRawPointer? {
+            return UnsafeMutableRawPointer(bitPattern: function_object.pointee.address)
+        }
     }
     
     // Ref: https://academy.realm.io/jp/posts/sash-zats-swift-swizzling/
@@ -32,7 +27,18 @@ enum CFunctionInjector {
         var selfPtr: UnsafeMutablePointer<uintptr_t>
     }
     
-    private static var injected_functions: [Int: original_function] = [:]
+    private static var injected_functions: [Int: __int64_t] = [:]
+    private static func assert_function_not_injected(_ origin: UnsafeMutablePointer<__int64_t>) {
+        assert(!injected_functions.keys.contains(Int(bitPattern: origin)))
+    }
+    private static func stack_injected_function(_ origin: UnsafeMutablePointer<__int64_t>, _ new_address: __int64_t) {
+        injected_functions[Int(bitPattern: origin)] = origin.pointee
+        origin.pointee = new_address
+    }
+    private static func pop_injected_function(_ origin: UnsafeMutablePointer<__int64_t>) {
+        guard let original_offset = injected_functions.removeValue(forKey: Int(bitPattern: origin)) else { return }
+        origin.pointee = original_offset
+    }
     
     /// Inject swift function to c function.
     /// Objective-C bridging is not work in injected function.
@@ -47,18 +53,17 @@ enum CFunctionInjector {
         
         let RTLD_DEFAULT = UnsafeMutableRawPointer(bitPattern: -2)
         guard let origin = dlsym(RTLD_DEFAULT, symbol)?.assumingMemoryBound(to: __int64_t.self) else { return }
-        
-        injected_functions[Int(bitPattern: origin)] = original_function(pointer: origin, original_offset: origin.pointee)
-        
-        // get actual function target
-        let target = UnsafeMutableRawPointer(bitPattern: target.assumingMemoryBound(to: swift_func_wrapper.self).pointee.function_object.pointee.address)
-        
+        assert_function_not_injected(origin)
+
         // make the memory containing the original function writable
         let pageSize = sysconf(_SC_PAGESIZE)
         let start = Int(bitPattern: origin)
         let end = start + 1
         let pageStart = start & -pageSize
         mprotect(UnsafeMutableRawPointer(bitPattern: pageStart), end - pageStart, PROT_READ | PROT_WRITE | PROT_EXEC)
+
+        // get actual c function target from swift function
+        let target = target.assumingMemoryBound(to: swift_func_wrapper.self).pointee.c_function_pointer
         
         // Calculate the relative offset needed for the jump instruction.
         // Since relative jumps are calculated from the address of the next instruction,
@@ -70,7 +75,7 @@ enum CFunctionInjector {
         // 0xe9 is the x86 opcode for an unconditional relative jump.
         let instruction = 0xe9 | offset << 8
         
-        origin.pointee = instruction
+        stack_injected_function(origin, instruction)
     }
     
     /// Reset function injection.
@@ -83,7 +88,6 @@ enum CFunctionInjector {
         let RTLD_DEFAULT = UnsafeMutableRawPointer(bitPattern: -2)
         guard let origin = dlsym(RTLD_DEFAULT, symbol)?.assumingMemoryBound(to: __int64_t.self) else { return }
         
-        injected_functions[Int(bitPattern: origin)]?.reset()
-        injected_functions[Int(bitPattern: origin)] = nil
+        pop_injected_function(origin)
     }
 }
