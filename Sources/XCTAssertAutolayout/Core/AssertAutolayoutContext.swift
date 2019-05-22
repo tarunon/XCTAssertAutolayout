@@ -36,7 +36,7 @@ class AssertAutolayoutContext {
     
     init(assert: @escaping (String, StaticString, UInt) -> (), file: StaticString, line: UInt) {
         _ = _initializeHook
-    
+        
         _assert = { assert($0, file, line) }
         _catchAutolayoutError = { _, allConstraints in
             self.errorViews += allConstraints
