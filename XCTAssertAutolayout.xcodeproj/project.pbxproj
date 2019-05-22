@@ -28,6 +28,8 @@
 		D22D5D8022950FDE00A3A402 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D22D5D7E22950FDE00A3A402 /* Main.storyboard */; };
 		D22D5D8222950FE000A3A402 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D22D5D8122950FE000A3A402 /* Assets.xcassets */; };
 		D22D5D8522950FE000A3A402 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D22D5D8322950FE000A3A402 /* LaunchScreen.storyboard */; };
+		D22D5D8D229518F600A3A402 /* AssertAutolayoutContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22D5D8C229518F600A3A402 /* AssertAutolayoutContext.swift */; };
+		D22D5D8F2295191B00A3A402 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22D5D8E2295191B00A3A402 /* Node.swift */; };
 		OBJ_27 /* CFunctionInjector.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* CFunctionInjector.swift */; };
 		OBJ_28 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* Core.swift */; };
 		OBJ_29 /* AssertAutolayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* AssertAutolayout.swift */; };
@@ -72,6 +74,8 @@
 		D22D5D8122950FE000A3A402 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D22D5D8422950FE000A3A402 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D22D5D8622950FE000A3A402 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		D22D5D8C229518F600A3A402 /* AssertAutolayoutContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssertAutolayoutContext.swift; sourceTree = "<group>"; };
+		D22D5D8E2295191B00A3A402 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		OBJ_10 /* CFunctionInjector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFunctionInjector.swift; sourceTree = "<group>"; };
 		OBJ_11 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
 		OBJ_13 /* AssertAutolayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssertAutolayout.swift; sourceTree = "<group>"; };
@@ -205,6 +209,8 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_10 /* CFunctionInjector.swift */,
+				D22D5D8E2295191B00A3A402 /* Node.swift */,
+				D22D5D8C229518F600A3A402 /* AssertAutolayoutContext.swift */,
 				OBJ_11 /* Core.swift */,
 			);
 			path = Core;
@@ -348,7 +354,9 @@
 			buildActionMask = 0;
 			files = (
 				OBJ_27 /* CFunctionInjector.swift in Sources */,
+				D22D5D8F2295191B00A3A402 /* Node.swift in Sources */,
 				OBJ_28 /* Core.swift in Sources */,
+				D22D5D8D229518F600A3A402 /* AssertAutolayoutContext.swift in Sources */,
 				OBJ_29 /* AssertAutolayout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
