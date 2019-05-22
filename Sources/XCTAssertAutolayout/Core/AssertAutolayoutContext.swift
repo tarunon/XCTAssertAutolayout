@@ -14,14 +14,19 @@ let UIViewAlertForUnsatisfiableConstraints = "UIViewAlertForUnsatisfiableConstra
 
 var _catchAutolayoutError: ((NSLayoutConstraint, NSArray) -> ())?
 
-func hookedUIViewAlertForUnsatisfiableConstraints(_ constraint: NSLayoutConstraint, _ allConstraints: NSArray) {
-    _catchAutolayoutError?(constraint, allConstraints)
-    CFunctionInjector.reset(UIViewAlertForUnsatisfiableConstraints)
-    originalUIViewAlertForUnsatisfiableConstraints(constraint, allConstraints)
-    withUnsafePointer(to: hookedUIViewAlertForUnsatisfiableConstraints) { (pointer) in
-        CFunctionInjector.inject(UIViewAlertForUnsatisfiableConstraints, pointer)
+// make c function pointer by convention attribute
+var hookedUIViewAlertForUnsatisfiableConstraints: (@convention(c) (NSLayoutConstraint, NSArray) -> Void)!
+
+let _initializeHook: Void = {
+    hookedUIViewAlertForUnsatisfiableConstraints = { (constraint: NSLayoutConstraint, allConstraints: NSArray) in
+        _catchAutolayoutError?(constraint, allConstraints)
+        CFunctionInjector.reset(UIViewAlertForUnsatisfiableConstraints)
+        originalUIViewAlertForUnsatisfiableConstraints(constraint, allConstraints)
+        CFunctionInjector.inject(UIViewAlertForUnsatisfiableConstraints,
+                                 unsafeBitCast(hookedUIViewAlertForUnsatisfiableConstraints, to: UnsafeRawPointer.self))
     }
-}
+    return ()
+}()
 
 class AssertAutolayoutContext {
     private let _assert: (String) -> ()
@@ -30,6 +35,8 @@ class AssertAutolayoutContext {
     private var errorViews: [UIView] = []
     
     init(assert: @escaping (String, StaticString, UInt) -> (), file: StaticString, line: UInt) {
+        _ = _initializeHook
+    
         _assert = { assert($0, file, line) }
         _catchAutolayoutError = { _, allConstraints in
             self.errorViews += allConstraints
@@ -37,9 +44,9 @@ class AssertAutolayoutContext {
                 .flatMap { [$0.firstItem, $0.secondItem] }
                 .compactMap { $0 as? UIView }
         }
-        withUnsafePointer(to: hookedUIViewAlertForUnsatisfiableConstraints) { (pointer) in
-            CFunctionInjector.inject(UIViewAlertForUnsatisfiableConstraints, pointer)
-        }
+
+        CFunctionInjector.inject(UIViewAlertForUnsatisfiableConstraints,
+                                 unsafeBitCast(hookedUIViewAlertForUnsatisfiableConstraints, to: UnsafeRawPointer.self))
     }
     
     func finalize() {
