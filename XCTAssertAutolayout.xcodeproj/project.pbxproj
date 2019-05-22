@@ -23,6 +23,11 @@
 /* Begin PBXBuildFile section */
 		D22D5D4022940EAD00A3A402 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D22D5D3F22940EAD00A3A402 /* UIKit.framework */; };
 		D22D5D4422940EBA00A3A402 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D22D5D4322940EBA00A3A402 /* XCTest.framework */; };
+		D22D5D7B22950FDE00A3A402 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22D5D7A22950FDE00A3A402 /* AppDelegate.swift */; };
+		D22D5D7D22950FDE00A3A402 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22D5D7C22950FDE00A3A402 /* ViewController.swift */; };
+		D22D5D8022950FDE00A3A402 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D22D5D7E22950FDE00A3A402 /* Main.storyboard */; };
+		D22D5D8222950FE000A3A402 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D22D5D8122950FE000A3A402 /* Assets.xcassets */; };
+		D22D5D8522950FE000A3A402 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D22D5D8322950FE000A3A402 /* LaunchScreen.storyboard */; };
 		OBJ_27 /* CFunctionInjector.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_10 /* CFunctionInjector.swift */; };
 		OBJ_28 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* Core.swift */; };
 		OBJ_29 /* AssertAutolayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_13 /* AssertAutolayout.swift */; };
@@ -47,12 +52,26 @@
 			remoteGlobalIDString = "XCTAssertAutolayout::XCTAssertAutolayoutTests";
 			remoteInfo = XCTAssertAutolayoutTests;
 		};
+		D22D5D8A22950FED00A3A402 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = OBJ_1 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = D22D5D7722950FDE00A3A402;
+			remoteInfo = XCTAssertAutolayoutTestApp;
+		};
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		D22D5D3F22940EAD00A3A402 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = System/Library/Frameworks/UIKit.framework; sourceTree = SDKROOT; };
 		D22D5D4122940EB200A3A402 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/MacOSX.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		D22D5D4322940EBA00A3A402 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		D22D5D7822950FDE00A3A402 /* XCTAssertAutolayoutTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCTAssertAutolayoutTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		D22D5D7A22950FDE00A3A402 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		D22D5D7C22950FDE00A3A402 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D22D5D7F22950FDE00A3A402 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		D22D5D8122950FE000A3A402 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		D22D5D8422950FE000A3A402 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		D22D5D8622950FE000A3A402 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		OBJ_10 /* CFunctionInjector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFunctionInjector.swift; sourceTree = "<group>"; };
 		OBJ_11 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
 		OBJ_13 /* AssertAutolayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssertAutolayout.swift; sourceTree = "<group>"; };
@@ -65,6 +84,13 @@
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		D22D5D7522950FDE00A3A402 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		OBJ_30 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
@@ -95,6 +121,19 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D22D5D7922950FDE00A3A402 /* XCTAssertAutolayoutTestApp */ = {
+			isa = PBXGroup;
+			children = (
+				D22D5D7A22950FDE00A3A402 /* AppDelegate.swift */,
+				D22D5D7C22950FDE00A3A402 /* ViewController.swift */,
+				D22D5D7E22950FDE00A3A402 /* Main.storyboard */,
+				D22D5D8122950FE000A3A402 /* Assets.xcassets */,
+				D22D5D8322950FE000A3A402 /* LaunchScreen.storyboard */,
+				D22D5D8622950FE000A3A402 /* Info.plist */,
+			);
+			path = XCTAssertAutolayoutTestApp;
+			sourceTree = "<group>";
+		};
 		OBJ_12 /* Front */ = {
 			isa = PBXGroup;
 			children = (
@@ -107,6 +146,7 @@
 			isa = PBXGroup;
 			children = (
 				OBJ_15 /* XCTAssertAutolayoutTests */,
+				D22D5D7922950FDE00A3A402 /* XCTAssertAutolayoutTestApp */,
 			);
 			name = Tests;
 			sourceTree = SOURCE_ROOT;
@@ -126,6 +166,7 @@
 			children = (
 				"XCTAssertAutolayout::XCTAssertAutolayout::Product" /* XCTAssertAutolayout.framework */,
 				"XCTAssertAutolayout::XCTAssertAutolayoutTests::Product" /* XCTAssertAutolayoutTests.xctest */,
+				D22D5D7822950FDE00A3A402 /* XCTAssertAutolayoutTestApp.app */,
 			);
 			name = Products;
 			sourceTree = BUILT_PRODUCTS_DIR;
@@ -172,6 +213,23 @@
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
+		D22D5D7722950FDE00A3A402 /* XCTAssertAutolayoutTestApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = D22D5D8722950FE000A3A402 /* Build configuration list for PBXNativeTarget "XCTAssertAutolayoutTestApp" */;
+			buildPhases = (
+				D22D5D7422950FDE00A3A402 /* Sources */,
+				D22D5D7522950FDE00A3A402 /* Frameworks */,
+				D22D5D7622950FDE00A3A402 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = XCTAssertAutolayoutTestApp;
+			productName = XCTAssertAutolayoutTestApp;
+			productReference = D22D5D7822950FDE00A3A402 /* XCTAssertAutolayoutTestApp.app */;
+			productType = "com.apple.product-type.application";
+		};
 		"XCTAssertAutolayout::SwiftPMPackageDescription" /* XCTAssertAutolayoutPackageDescription */ = {
 			isa = PBXNativeTarget;
 			buildConfigurationList = OBJ_32 /* Build configuration list for PBXNativeTarget "XCTAssertAutolayoutPackageDescription" */;
@@ -213,6 +271,7 @@
 			);
 			dependencies = (
 				OBJ_51 /* PBXTargetDependency */,
+				D22D5D8B22950FED00A3A402 /* PBXTargetDependency */,
 			);
 			name = XCTAssertAutolayoutTests;
 			productName = XCTAssertAutolayoutTests;
@@ -226,7 +285,17 @@
 			isa = PBXProject;
 			attributes = {
 				LastSwiftMigration = 9999;
+				LastSwiftUpdateCheck = 1020;
 				LastUpgradeCheck = 9999;
+				TargetAttributes = {
+					D22D5D7722950FDE00A3A402 = {
+						CreatedOnToolsVersion = 10.2.1;
+						ProvisioningStyle = Automatic;
+					};
+					"XCTAssertAutolayout::XCTAssertAutolayoutTests" = {
+						TestTargetID = D22D5D7722950FDE00A3A402;
+					};
+				};
 			};
 			buildConfigurationList = OBJ_2 /* Build configuration list for PBXProject "XCTAssertAutolayout" */;
 			compatibilityVersion = "Xcode 3.2";
@@ -235,6 +304,7 @@
 			knownRegions = (
 				English,
 				en,
+				Base,
 			);
 			mainGroup = OBJ_5;
 			productRefGroup = OBJ_18 /* Products */;
@@ -245,11 +315,34 @@
 				"XCTAssertAutolayout::SwiftPMPackageDescription" /* XCTAssertAutolayoutPackageDescription */,
 				"XCTAssertAutolayout::XCTAssertAutolayoutPackageTests::ProductTarget" /* XCTAssertAutolayoutPackageTests */,
 				"XCTAssertAutolayout::XCTAssertAutolayoutTests" /* XCTAssertAutolayoutTests */,
+				D22D5D7722950FDE00A3A402 /* XCTAssertAutolayoutTestApp */,
 			);
 		};
 /* End PBXProject section */
 
+/* Begin PBXResourcesBuildPhase section */
+		D22D5D7622950FDE00A3A402 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D22D5D8522950FE000A3A402 /* LaunchScreen.storyboard in Resources */,
+				D22D5D8222950FE000A3A402 /* Assets.xcassets in Resources */,
+				D22D5D8022950FDE00A3A402 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
+		D22D5D7422950FDE00A3A402 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				D22D5D7D22950FDE00A3A402 /* ViewController.swift in Sources */,
+				D22D5D7B22950FDE00A3A402 /* AppDelegate.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		OBJ_26 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 0;
@@ -280,6 +373,11 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
+		D22D5D8B22950FED00A3A402 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = D22D5D7722950FDE00A3A402 /* XCTAssertAutolayoutTestApp */;
+			targetProxy = D22D5D8A22950FED00A3A402 /* PBXContainerItemProxy */;
+		};
 		OBJ_41 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = "XCTAssertAutolayout::XCTAssertAutolayoutTests" /* XCTAssertAutolayoutTests */;
@@ -292,7 +390,146 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		D22D5D7E22950FDE00A3A402 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D22D5D7F22950FDE00A3A402 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+		D22D5D8322950FE000A3A402 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				D22D5D8422950FE000A3A402 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
+		D22D5D8822950FE000A3A402 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = XCTAssertAutolayoutTestApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tarunon.XCTAssertAutolayoutTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = DEBUG;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		D22D5D8922950FE000A3A402 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++14";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				CODE_SIGN_STYLE = Automatic;
+				COPY_PHASE_STRIP = NO;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu11;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				INFOPLIST_FILE = XCTAssertAutolayoutTestApp/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 12.2;
+				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				PRODUCT_BUNDLE_IDENTIFIER = com.tarunon.XCTAssertAutolayoutTestApp;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
 		OBJ_24 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
@@ -440,6 +677,7 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_VERSION = 5.0;
 				TARGET_NAME = XCTAssertAutolayoutTests;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XCTAssertAutolayoutTestApp.app/XCTAssertAutolayoutTestApp";
 			};
 			name = Debug;
 		};
@@ -461,12 +699,22 @@
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited)";
 				SWIFT_VERSION = 5.0;
 				TARGET_NAME = XCTAssertAutolayoutTests;
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/XCTAssertAutolayoutTestApp.app/XCTAssertAutolayoutTestApp";
 			};
 			name = Release;
 		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
+		D22D5D8722950FE000A3A402 /* Build configuration list for PBXNativeTarget "XCTAssertAutolayoutTestApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				D22D5D8822950FE000A3A402 /* Debug */,
+				D22D5D8922950FE000A3A402 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
 		OBJ_2 /* Build configuration list for PBXProject "XCTAssertAutolayout" */ = {
 			isa = XCConfigurationList;
 			buildConfigurations = (

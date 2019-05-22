@@ -47,7 +47,7 @@ struct Node {
     }
     
     func assertMessages() -> AssertMessage {
-        let head = "\(viewClass) \(hasAmbiguousLayout ? "[✘]" : "")"
+        let head = "\(viewClass)\(hasAmbiguousLayout ? " [✘]" : "")"
         return AssertMessage(head: head, body: children.map { $0.assertMessages() })
     }
 }
@@ -56,10 +56,10 @@ struct Node {
 func originalUIViewAlertForUnsatisfiableConstraints(_ constraint: NSLayoutConstraint, _ allConstraints: NSArray)
 let UIViewAlertForUnsatisfiableConstraints = "UIViewAlertForUnsatisfiableConstraints"
 
-var _catchAutolayoutError: ((NSLayoutConstraint) -> ())?
+var _catchAutolayoutError: ((NSLayoutConstraint, NSArray) -> ())?
 
 func hookedUIViewAlertForUnsatisfiableConstraints(_ constraint: NSLayoutConstraint, _ allConstraints: NSArray) {
-    _catchAutolayoutError?(constraint)
+    _catchAutolayoutError?(constraint, allConstraints)
     CFunctionInjector.reset(UIViewAlertForUnsatisfiableConstraints)
     originalUIViewAlertForUnsatisfiableConstraints(constraint, allConstraints)
     withUnsafePointer(to: hookedUIViewAlertForUnsatisfiableConstraints) { (pointer) in
@@ -75,8 +75,11 @@ class AssertAutolayoutContext {
     
     init(assert: @escaping (String, StaticString, UInt) -> (), file: StaticString, line: UInt) {
         _assert = { assert($0, file, line) }
-        _catchAutolayoutError = { constraint in
-            self.errorViews += [constraint.firstItem, constraint.secondItem].compactMap { $0 as? UIView }
+        _catchAutolayoutError = { _, allConstraints in
+            self.errorViews += allConstraints
+                .compactMap { $0 as? NSLayoutConstraint }
+                .flatMap { [$0.firstItem, $0.secondItem] }
+                .compactMap { $0 as? UIView }
         }
         withUnsafePointer(to: hookedUIViewAlertForUnsatisfiableConstraints) { (pointer) in
             CFunctionInjector.inject(UIViewAlertForUnsatisfiableConstraints, pointer)
@@ -121,7 +124,8 @@ class AssertAutolayoutContext {
         guard let node = traverse(viewController.view, currentViewController: viewController) else {
             return
         }
-        _assert("\(node.numberOfAmbiguous()) view has ambiguous layout\n" + node.assertMessages().description)
+        let root = Node(viewClass: type(of: viewController), children: [node], hasAmbiguousLayout: false)
+        _assert("\(root.numberOfAmbiguous()) view has ambiguous layout\n" + root.assertMessages().description)
     }
 }
 
