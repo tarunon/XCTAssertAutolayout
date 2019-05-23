@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Scheme
-   LastUpgradeVersion = "9999"
+   LastUpgradeVersion = "1020"
    version = "1.3">
    <BuildAction
       parallelizeBuildables = "YES"
@@ -14,10 +14,10 @@
             buildForAnalyzing = "YES">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "XCTAssertAutolayout::XCTAssertAutolayout"
-               BuildableName = "XCTAssertAutolayout.framework"
-               BlueprintName = "XCTAssertAutolayout"
-               ReferencedContainer = "container:XCTAssertAutolayout.xcodeproj">
+               BlueprintIdentifier = "D22D5D4D22940FE300A3A402"
+               BuildableName = "XCTAssertAutolayoutExample.app"
+               BlueprintName = "XCTAssertAutolayoutExample"
+               ReferencedContainer = "container:XCTAssertAutolayoutExample.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -32,13 +32,22 @@
             skipped = "NO">
             <BuildableReference
                BuildableIdentifier = "primary"
-               BlueprintIdentifier = "XCTAssertAutolayout::XCTAssertAutolayoutTests"
-               BuildableName = "XCTAssertAutolayoutTests.xctest"
-               BlueprintName = "XCTAssertAutolayoutTests"
-               ReferencedContainer = "container:XCTAssertAutolayout.xcodeproj">
+               BlueprintIdentifier = "D22D5D6122940FE600A3A402"
+               BuildableName = "XCTAssertAutolayoutExampleTests.xctest"
+               BlueprintName = "XCTAssertAutolayoutExampleTests"
+               ReferencedContainer = "container:XCTAssertAutolayoutExample.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "D22D5D4D22940FE300A3A402"
+            BuildableName = "XCTAssertAutolayoutExample.app"
+            BlueprintName = "XCTAssertAutolayoutExample"
+            ReferencedContainer = "container:XCTAssertAutolayoutExample.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -52,15 +61,16 @@
       debugDocumentVersioning = "YES"
       debugServiceExtension = "internal"
       allowLocationSimulation = "YES">
-      <MacroExpansion>
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
          <BuildableReference
             BuildableIdentifier = "primary"
-            BlueprintIdentifier = "XCTAssertAutolayout::XCTAssertAutolayout"
-            BuildableName = "XCTAssertAutolayout.framework"
-            BlueprintName = "XCTAssertAutolayout"
-            ReferencedContainer = "container:XCTAssertAutolayout.xcodeproj">
+            BlueprintIdentifier = "D22D5D4D22940FE300A3A402"
+            BuildableName = "XCTAssertAutolayoutExample.app"
+            BlueprintName = "XCTAssertAutolayoutExample"
+            ReferencedContainer = "container:XCTAssertAutolayoutExample.xcodeproj">
          </BuildableReference>
-      </MacroExpansion>
+      </BuildableProductRunnable>
       <AdditionalOptions>
       </AdditionalOptions>
    </LaunchAction>
@@ -70,6 +80,16 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <BuildableProductRunnable
+         runnableDebuggingMode = "0">
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "D22D5D4D22940FE300A3A402"
+            BuildableName = "XCTAssertAutolayoutExample.app"
+            BlueprintName = "XCTAssertAutolayoutExample"
+            ReferencedContainer = "container:XCTAssertAutolayoutExample.xcodeproj">
+         </BuildableReference>
+      </BuildableProductRunnable>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
