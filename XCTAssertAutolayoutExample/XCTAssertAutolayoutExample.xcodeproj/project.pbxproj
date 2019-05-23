@@ -13,7 +13,7 @@
 		D22D5D5922940FE500A3A402 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D22D5D5822940FE500A3A402 /* Assets.xcassets */; };
 		D22D5D5C22940FE500A3A402 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D22D5D5A22940FE500A3A402 /* LaunchScreen.storyboard */; };
 		D22D5D6722940FE600A3A402 /* XCTAssertAutolayoutExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22D5D6622940FE600A3A402 /* XCTAssertAutolayoutExampleTests.swift */; };
-		D22D5D732294119C00A3A402 /* XCTAssertAutolayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D22D5D722294119C00A3A402 /* XCTAssertAutolayout.framework */; };
+		D62F65582296573100175D64 /* XCTAssertAutolayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D62F65572296573100175D64 /* XCTAssertAutolayout.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,7 +37,7 @@
 		D22D5D6222940FE600A3A402 /* XCTAssertAutolayoutExampleTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = XCTAssertAutolayoutExampleTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		D22D5D6622940FE600A3A402 /* XCTAssertAutolayoutExampleTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTAssertAutolayoutExampleTests.swift; sourceTree = "<group>"; };
 		D22D5D6822940FE600A3A402 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
-		D22D5D722294119C00A3A402 /* XCTAssertAutolayout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = XCTAssertAutolayout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		D62F65572296573100175D64 /* XCTAssertAutolayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = XCTAssertAutolayout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -45,7 +45,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D22D5D732294119C00A3A402 /* XCTAssertAutolayout.framework in Frameworks */,
+				D62F65582296573100175D64 /* XCTAssertAutolayout.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -103,7 +103,7 @@
 		D22D5D712294119C00A3A402 /* Frameworks */ = {
 			isa = PBXGroup;
 			children = (
-				D22D5D722294119C00A3A402 /* XCTAssertAutolayout.framework */,
+				D62F65572296573100175D64 /* XCTAssertAutolayout.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -373,6 +373,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = XCTAssertAutolayoutExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -390,6 +391,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = XCTAssertAutolayoutExample/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -408,6 +410,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = XCTAssertAutolayoutExampleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -428,6 +431,7 @@
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
+				DEVELOPMENT_TEAM = "";
 				INFOPLIST_FILE = XCTAssertAutolayoutExampleTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",

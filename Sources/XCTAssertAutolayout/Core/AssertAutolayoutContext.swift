@@ -7,20 +7,19 @@
 
 import Foundation
 import UIKit
+import CXCTAssertAutolayout
 
-@_silgen_name("UIViewAlertForUnsatisfiableConstraints")
-func originalUIViewAlertForUnsatisfiableConstraints(_ constraint: NSLayoutConstraint, _ allConstraints: NSArray)
-let UIViewAlertForUnsatisfiableConstraints = "UIViewAlertForUnsatisfiableConstraints"
+let UIViewAlertForUnsatisfiableConstraintsSymbol = "UIViewAlertForUnsatisfiableConstraints"
 
-var _catchAutolayoutError: ((NSLayoutConstraint, NSArray) -> ())?
+var _catchAutolayoutError: ((NSLayoutConstraint, [NSLayoutConstraint]) -> ())?
 var hookedUIViewAlertForUnsatisfiableConstraintsPointer: UnsafeRawPointer!
 
 // make c function pointer by convention attribute
-let hookedUIViewAlertForUnsatisfiableConstraints: (@convention(c) (NSLayoutConstraint, NSArray) -> Void) = { (constraint: NSLayoutConstraint, allConstraints: NSArray) in
+let hookedUIViewAlertForUnsatisfiableConstraints: (@convention(c) (NSLayoutConstraint, [NSLayoutConstraint]) -> Void) = { (constraint: NSLayoutConstraint, allConstraints: [NSLayoutConstraint]) in
     _catchAutolayoutError?(constraint, allConstraints)
-    CFunctionInjector.reset(UIViewAlertForUnsatisfiableConstraints)
-    originalUIViewAlertForUnsatisfiableConstraints(constraint, allConstraints)
-    CFunctionInjector.inject(UIViewAlertForUnsatisfiableConstraints, hookedUIViewAlertForUnsatisfiableConstraintsPointer)
+    CFunctionInjector.reset(UIViewAlertForUnsatisfiableConstraintsSymbol)
+    UIViewAlertForUnsatisfiableConstraints(constraint, allConstraints)
+    CFunctionInjector.inject(UIViewAlertForUnsatisfiableConstraintsSymbol, hookedUIViewAlertForUnsatisfiableConstraintsPointer)
 }
 
 class AssertAutolayoutContext {
@@ -33,18 +32,17 @@ class AssertAutolayoutContext {
         _assert = { assert($0, file, line) }
         _catchAutolayoutError = { _, allConstraints in
             self.errorViews += allConstraints
-                .compactMap { $0 as? NSLayoutConstraint }
                 .flatMap { [$0.firstItem, $0.secondItem] }
                 .compactMap { $0 as? UIView }
         }
         
         hookedUIViewAlertForUnsatisfiableConstraintsPointer = unsafeBitCast(hookedUIViewAlertForUnsatisfiableConstraints, to: UnsafeRawPointer.self)
-        CFunctionInjector.inject(UIViewAlertForUnsatisfiableConstraints, hookedUIViewAlertForUnsatisfiableConstraintsPointer)
+        CFunctionInjector.inject(UIViewAlertForUnsatisfiableConstraintsSymbol, hookedUIViewAlertForUnsatisfiableConstraintsPointer)
     }
     
     func finalize() {
         _catchAutolayoutError = nil
-        CFunctionInjector.reset(UIViewAlertForUnsatisfiableConstraints)
+        CFunctionInjector.reset(UIViewAlertForUnsatisfiableConstraintsSymbol)
     }
     
     private func getViewController(_ responder: UIResponder) -> UIViewController? {
