@@ -53,6 +53,15 @@
             </BuildableReference>
          </TestableReference>
       </Testables>
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "XCTAssertAutolayout::XCTAssertAutolayout"
+            BuildableName = "XCTAssertAutolayout.framework"
+            BlueprintName = "XCTAssertAutolayout"
+            ReferencedContainer = "container:XCTAssertAutolayout.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
       <AdditionalOptions>
       </AdditionalOptions>
    </TestAction>
@@ -84,6 +93,15 @@
       savedToolIdentifier = ""
       useCustomWorkingDirectory = "NO"
       debugDocumentVersioning = "YES">
+      <MacroExpansion>
+         <BuildableReference
+            BuildableIdentifier = "primary"
+            BlueprintIdentifier = "XCTAssertAutolayout::XCTAssertAutolayout"
+            BuildableName = "XCTAssertAutolayout.framework"
+            BlueprintName = "XCTAssertAutolayout"
+            ReferencedContainer = "container:XCTAssertAutolayout.xcodeproj">
+         </BuildableReference>
+      </MacroExpansion>
    </ProfileAction>
    <AnalyzeAction
       buildConfiguration = "Debug">
