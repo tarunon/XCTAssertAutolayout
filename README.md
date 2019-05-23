@@ -1,4 +1,7 @@
 # XCTAssertAutolayout
+[![Build Status](https://travis-ci.org/tarunon/XCTAssertAutolayout.svg?branch=master)](https://travis-ci.org/tarunon/XCTAssertAutolayout)
+[![Carthage compatible](https://img.shields.io/badge/Carthage-compatible-4BC51D.svg?style=flat)](https://github.com/Carthage/Carthage)
+
 
 Provides autolayout test cases for Swift.
 
@@ -14,7 +17,5 @@ Swift 4.2~
 
 ## Carthage
 ```rb
-github "tarunon/XCTAssertAutolayout" "master"
+github "tarunon/XCTAssertAutolayout" "0.1.0"
 ```
-
-Sorry for not yet release 🤕
