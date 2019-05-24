@@ -19,8 +19,8 @@ class CFunctionInjector {
         var errorDescription: String? { return description }
     }
     
-    var origin: UnsafeMutablePointer<__int64_t>
-    var offset: __int64_t
+    var origin: UnsafeMutablePointer<Int64>
+    var offset: Int64
     
     /// Initialize CFunctionInjector object.
     /// This method use mprotect in target symbol.
@@ -49,7 +49,7 @@ class CFunctionInjector {
         if status == -1 {
             throw Error(message: "failed to change memory protection: errno=\(errno)")
         }
-        self.origin = origin.assumingMemoryBound(to: __int64_t.self)
+        self.origin = origin.assumingMemoryBound(to: Int64.self)
         self.offset = self.origin.pointee
     }
     
