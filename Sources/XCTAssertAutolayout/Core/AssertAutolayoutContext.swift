@@ -13,13 +13,14 @@ let UIViewAlertForUnsatisfiableConstraintsSymbol = "UIViewAlertForUnsatisfiableC
 
 var _catchAutolayoutError: ((NSLayoutConstraint, [NSLayoutConstraint]) -> ())?
 var hookedUIViewAlertForUnsatisfiableConstraintsPointer: UnsafeRawPointer!
+let injector: CFunctionInjector = try! CFunctionInjector(UIViewAlertForUnsatisfiableConstraintsSymbol)
 
 // make c function pointer by convention attribute
 let hookedUIViewAlertForUnsatisfiableConstraints: (@convention(c) (NSLayoutConstraint, [NSLayoutConstraint]) -> Void) = { (constraint: NSLayoutConstraint, allConstraints: [NSLayoutConstraint]) in
     _catchAutolayoutError?(constraint, allConstraints)
-    CFunctionInjector.reset(UIViewAlertForUnsatisfiableConstraintsSymbol)
+    injector.reset()
     UIViewAlertForUnsatisfiableConstraints(constraint, allConstraints)
-    try! CFunctionInjector.inject(UIViewAlertForUnsatisfiableConstraintsSymbol, hookedUIViewAlertForUnsatisfiableConstraintsPointer)
+    injector.inject(hookedUIViewAlertForUnsatisfiableConstraintsPointer)
 }
 
 class AssertAutolayoutContext {
@@ -37,12 +38,12 @@ class AssertAutolayoutContext {
         }
         
         hookedUIViewAlertForUnsatisfiableConstraintsPointer = unsafeBitCast(hookedUIViewAlertForUnsatisfiableConstraints, to: UnsafeRawPointer.self)
-        try! CFunctionInjector.inject(UIViewAlertForUnsatisfiableConstraintsSymbol, hookedUIViewAlertForUnsatisfiableConstraintsPointer)
+        injector.inject(hookedUIViewAlertForUnsatisfiableConstraintsPointer)
     }
     
     func finalize() {
         _catchAutolayoutError = nil
-        CFunctionInjector.reset(UIViewAlertForUnsatisfiableConstraintsSymbol)
+        injector.reset()
     }
     
     private func getViewController(_ responder: UIResponder) -> UIViewController? {

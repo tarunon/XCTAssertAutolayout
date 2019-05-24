@@ -12,50 +12,28 @@ import Foundation
 // #define    RTLD_DEFAULT    ((void *) -2)    /* Use default search algorithm. */
 let RTLD_DEFAULT = UnsafeMutableRawPointer(bitPattern: -2)
 
-enum CFunctionInjector {
+class CFunctionInjector {
     struct Error : LocalizedError, CustomStringConvertible {
         var message: String
         var description: String { return message }
         var errorDescription: String? { return description }
     }
     
-    private enum injected_functions {
-        private static var storage: [UnsafeMutableRawPointer: Int64] = [:]
-        fileprivate static func assert_function_not_injected(_ origin: UnsafeMutableRawPointer) {
-            assert(!storage.keys.contains(origin))
-        }
-        fileprivate static func stack_injected_function(_ origin: UnsafeMutableRawPointer, _ new_instruction: Int64) {
-            let originI64 = origin.assumingMemoryBound(to: Int64.self)
-            storage[origin] = originI64.pointee
-            originI64.pointee = new_instruction
-        }
-        fileprivate static func pop_injected_function(_ origin: UnsafeMutableRawPointer) {
-            guard let original_instruction = storage.removeValue(forKey: origin) else {
-                preconditionFailure("function is not injected")
-            }
-            
-            let originI64 = origin.assumingMemoryBound(to: Int64.self)
-            originI64.pointee = original_instruction
-        }
-    }
+    var origin: UnsafeMutablePointer<__int64_t>
+    var offset: __int64_t
     
-    /// Inject c function to c function.
-    /// Objective-C bridging is not work in injected function.
-    /// The injected functions argument and return value should use original type or `UnsafeRawPointer`.
+    /// Initialize CFunctionInjector object.
+    /// This method use mprotect in target symbol.
     /// Ref: https://github.com/thomasfinch/CRuntimeFunctionHooker/blob/master/inject.c
     ///
-    /// - Parameters:
-    ///   - symbol: c function name.
-    ///   - target: c function pointer.
-    static func inject(_ symbol: String, _ target: UnsafeRawPointer) throws {
+    /// - Parameter symbol: c function name
+    /// - Throws: Error that fail CFunctionInjector initialize
+    init(_ symbol: String) throws {
         assert(Thread.isMainThread)
         
         guard let origin = dlsym(RTLD_DEFAULT, symbol) else {
             throw Error(message: "symbol not found: \(symbol)")
         }
-        
-        injected_functions.assert_function_not_injected(origin)
-
         // make the memory containing the original function writable
         let pageSize = sysconf(_SC_PAGESIZE)
         if pageSize == -1 {
@@ -71,6 +49,23 @@ enum CFunctionInjector {
         if status == -1 {
             throw Error(message: "failed to change memory protection: errno=\(errno)")
         }
+        self.origin = origin.assumingMemoryBound(to: __int64_t.self)
+        self.offset = self.origin.pointee
+    }
+    
+    deinit {
+        reset()
+    }
+    
+    /// Inject c function to c function.
+    /// Objective-C bridging is not work in injected function.
+    /// The injected functions argument and return value should use original type or `UnsafeRawPointer`.
+    /// Ref: https://github.com/thomasfinch/CRuntimeFunctionHooker/blob/master/inject.c
+    ///
+    /// - Parameters:
+    ///   - target: c function pointer.
+    func inject(_ target: UnsafeRawPointer) {
+        assert(Thread.isMainThread)
         
         // Calculate the relative offset needed for the jump instruction.
         // Since relative jumps are calculated from the address of the next instruction,
@@ -81,21 +76,15 @@ enum CFunctionInjector {
         // 0xe9 is the x86 opcode for an unconditional relative jump.
         let instruction: Int64 = 0xe9 | Int64(offset) << 8
         
-        injected_functions.stack_injected_function(origin, instruction)
+        origin.pointee = instruction
     }
     
     /// Reset function injection.
     /// Ref: https://github.com/thomasfinch/CRuntimeFunctionHooker/blob/master/inject.c
     ///
     /// - Parameter symbol: c function name.
-    static func reset(_ symbol: String) {
+    func reset() {
         assert(Thread.isMainThread)
-        
-        guard let origin = dlsym(RTLD_DEFAULT, symbol) else {
-            // function is not injected, its ok.
-            return
-        }
-        
-        injected_functions.pop_injected_function(origin)
+        origin.pointee = offset
     }
 }
