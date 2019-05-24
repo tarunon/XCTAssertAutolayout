@@ -19,7 +19,7 @@ let hookedUIViewAlertForUnsatisfiableConstraints: (@convention(c) (NSLayoutConst
     _catchAutolayoutError?(constraint, allConstraints)
     CFunctionInjector.reset(UIViewAlertForUnsatisfiableConstraintsSymbol)
     UIViewAlertForUnsatisfiableConstraints(constraint, allConstraints)
-    CFunctionInjector.inject(UIViewAlertForUnsatisfiableConstraintsSymbol, hookedUIViewAlertForUnsatisfiableConstraintsPointer)
+    try! CFunctionInjector.inject(UIViewAlertForUnsatisfiableConstraintsSymbol, hookedUIViewAlertForUnsatisfiableConstraintsPointer)
 }
 
 class AssertAutolayoutContext {
@@ -37,7 +37,7 @@ class AssertAutolayoutContext {
         }
         
         hookedUIViewAlertForUnsatisfiableConstraintsPointer = unsafeBitCast(hookedUIViewAlertForUnsatisfiableConstraints, to: UnsafeRawPointer.self)
-        CFunctionInjector.inject(UIViewAlertForUnsatisfiableConstraintsSymbol, hookedUIViewAlertForUnsatisfiableConstraintsPointer)
+        try! CFunctionInjector.inject(UIViewAlertForUnsatisfiableConstraintsSymbol, hookedUIViewAlertForUnsatisfiableConstraintsPointer)
     }
     
     func finalize() {
