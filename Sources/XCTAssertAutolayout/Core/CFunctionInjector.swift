@@ -8,10 +8,6 @@
 
 import Foundation
 
-// dlfcn.h
-// #define    RTLD_DEFAULT    ((void *) -2)    /* Use default search algorithm. */
-let RTLD_DEFAULT = UnsafeMutableRawPointer(bitPattern: -2)
-
 class CFunctionInjector {
     struct Error : LocalizedError, CustomStringConvertible {
         var message: String
@@ -20,17 +16,21 @@ class CFunctionInjector {
     }
     
     var origin: UnsafeMutablePointer<Int64>
-    var offset: Int64
+    var escapedInstructionBytes: Int64
     
     /// Initialize CFunctionInjector object.
-    /// This method use mprotect in target symbol.
+    /// This method remove original c functions memory protection.
     /// Ref: https://github.com/thomasfinch/CRuntimeFunctionHooker/blob/master/inject.c
     ///
     /// - Parameter symbol: c function name
     /// - Throws: Error that fail CFunctionInjector initialize
     init(_ symbol: String) throws {
         assert(Thread.isMainThread)
-        
+
+        // dlfcn.h
+        // #define    RTLD_DEFAULT    ((void *) -2)    /* Use default search algorithm. */
+        let RTLD_DEFAULT = UnsafeMutableRawPointer(bitPattern: -2)
+
         guard let origin = dlsym(RTLD_DEFAULT, symbol) else {
             throw Error(message: "symbol not found: \(symbol)")
         }
@@ -50,7 +50,7 @@ class CFunctionInjector {
             throw Error(message: "failed to change memory protection: errno=\(errno)")
         }
         self.origin = origin.assumingMemoryBound(to: Int64.self)
-        self.offset = self.origin.pointee
+        self.escapedInstructionBytes = self.origin.pointee
     }
     
     deinit {
@@ -58,8 +58,6 @@ class CFunctionInjector {
     }
     
     /// Inject c function to c function.
-    /// Objective-C bridging is not work in injected function.
-    /// The injected functions argument and return value should use original type or `UnsafeRawPointer`.
     /// Ref: https://github.com/thomasfinch/CRuntimeFunctionHooker/blob/master/inject.c
     ///
     /// - Parameters:
@@ -85,6 +83,6 @@ class CFunctionInjector {
     /// - Parameter symbol: c function name.
     func reset() {
         assert(Thread.isMainThread)
-        origin.pointee = offset
+        origin.pointee = escapedInstructionBytes
     }
 }
