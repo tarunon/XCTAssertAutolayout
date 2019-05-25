@@ -10,7 +10,10 @@ import UIKit
 
 func assertNoAmbiguousLayout(_ viewController: @autoclosure () -> UIViewController, assert: @escaping (String, StaticString, UInt) -> (), file: StaticString, line: UInt) {
     
-    let origin = UIApplication.shared.keyWindow
+    guard let origin = UIApplication.shared.keyWindow else {
+        assert("Should set Host Application at Test target.", file, line)
+        return
+    }
     let window = UIWindow(frame: UIScreen.main.bounds)
     window.rootViewController = UIViewController()
     window.makeKeyAndVisible()
@@ -30,7 +33,7 @@ func assertNoAmbiguousLayout(_ viewController: @autoclosure () -> UIViewControll
     }
     
     window.resignKey()
-    origin?.makeKeyAndVisible()
+    origin.makeKeyAndVisible()
     
     context.finalize()
 }
