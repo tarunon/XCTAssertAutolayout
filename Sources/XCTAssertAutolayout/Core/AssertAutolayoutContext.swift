@@ -25,8 +25,6 @@ let hookedUIViewAlertForUnsatisfiableConstraints: (@convention(c) (NSLayoutConst
 
 class AssertAutolayoutContext {
     private let _assert: (String) -> ()
-    private var ambiguousCount = 0
-    private var assertMessages = [String]()
     private var errorConstraints: [NSLayoutConstraint] = []
     
     init(assert: @escaping (String, StaticString, UInt) -> (), file: StaticString, line: UInt) {
@@ -48,7 +46,7 @@ class AssertAutolayoutContext {
         return (responder as? UIViewController) ?? responder.next.flatMap(getViewController)
     }
     
-    private func viewHasAmbiguous(_ view: UIView) -> AmbiguousLayout {
+    private func ambiguousLayout(for view: UIView) -> AmbiguousLayout {
         return AmbiguousLayout(errorConstraints
             .map { constraint in
                 var result = AmbiguousLayout()
@@ -75,7 +73,7 @@ class AssertAutolayoutContext {
                     return traverse(view, currentViewController: currentViewController)
                 }
         }
-        let anchors = viewHasAmbiguous(view)
+        let anchors = ambiguousLayout(for: view)
         if !anchors.isEmpty || !nodes.isEmpty {
             return Node(viewClass: type(of: view), children: nodes, ambiguousLayout: anchors)
         }
