@@ -21,6 +21,7 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		D22B9561229B5B0700345997 /* AmbiguousLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22B9560229B5B0700345997 /* AmbiguousLayout.swift */; };
 		D258BE892296889E008ED47E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D258BE882296889E008ED47E /* AppDelegate.swift */; };
 		D258BE8B2296889E008ED47E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D258BE8A2296889E008ED47E /* ViewController.swift */; };
 		D258BE8E2296889E008ED47E /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D258BE8C2296889E008ED47E /* Main.storyboard */; };
@@ -80,6 +81,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D22B9560229B5B0700345997 /* AmbiguousLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmbiguousLayout.swift; sourceTree = "<group>"; };
 		D258BE862296889E008ED47E /* XCTAssertAutolayoutTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCTAssertAutolayoutTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D258BE882296889E008ED47E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D258BE8A2296889E008ED47E /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -178,6 +180,7 @@
 				OBJ_15 /* CFunctionInjector.swift */,
 				OBJ_16 /* Core.swift */,
 				OBJ_17 /* Node.swift */,
+				D22B9560229B5B0700345997 /* AmbiguousLayout.swift */,
 			);
 			path = Core;
 			sourceTree = "<group>";
@@ -431,6 +434,7 @@
 				OBJ_48 /* CFunctionInjector.swift in Sources */,
 				OBJ_49 /* Core.swift in Sources */,
 				OBJ_50 /* Node.swift in Sources */,
+				D22B9561229B5B0700345997 /* AmbiguousLayout.swift in Sources */,
 				OBJ_51 /* AssertAutolayout.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

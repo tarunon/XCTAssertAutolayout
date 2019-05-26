@@ -10,7 +10,7 @@ import Foundation
 struct Node {
     var viewClass: AnyClass
     var children: [Node]
-    var hasAmbiguousLayout: Bool
+    var ambiguousLayout: AmbiguousLayout
     
     struct AssertMessage: CustomStringConvertible {
         var head: String
@@ -42,11 +42,11 @@ struct Node {
     }
     
     func numberOfAmbiguous() -> Int {
-        return children.map { $0.numberOfAmbiguous() }.reduce(hasAmbiguousLayout ? 1 : 0) { $0 + $1 }
+        return children.map { $0.numberOfAmbiguous() }.reduce(ambiguousLayout.isEmpty ? 0 : 1) { $0 + $1 }
     }
     
     func assertMessages() -> AssertMessage {
-        let head = "\(viewClass)\(hasAmbiguousLayout ? " [✘]" : "")"
+        let head = "\(viewClass)\(ambiguousLayout)"
         return AssertMessage(head: head, body: children.map { $0.assertMessages() })
     }
 }

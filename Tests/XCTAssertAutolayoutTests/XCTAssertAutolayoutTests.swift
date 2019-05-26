@@ -43,8 +43,8 @@ final class XCTAssertAutolayoutTests: XCTestCase {
 2 view has ambiguous layout
 ViewController
 ┗UIView
-  ┣UIView [✘]
-  ┗UIView [✘]
+  ┣UIView [✘] (width)
+  ┗UIView [✘] (width)
 """
         )
     

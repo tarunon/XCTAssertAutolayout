@@ -27,14 +27,12 @@ class AssertAutolayoutContext {
     private let _assert: (String) -> ()
     private var ambiguousCount = 0
     private var assertMessages = [String]()
-    private var errorViews: [UIView] = []
+    private var errorConstraints: [NSLayoutConstraint] = []
     
     init(assert: @escaping (String, StaticString, UInt) -> (), file: StaticString, line: UInt) {
         _assert = { assert($0, file, line) }
         _catchAutolayoutError = { _, allConstraints in
-            self.errorViews += allConstraints
-                .flatMap { [$0.firstItem, $0.secondItem] }
-                .compactMap { $0 as? UIView }
+            self.errorConstraints += allConstraints
         }
         
         hookedUIViewAlertForUnsatisfiableConstraintsPointer = unsafeBitCast(hookedUIViewAlertForUnsatisfiableConstraints, to: UnsafeRawPointer.self)
@@ -50,8 +48,18 @@ class AssertAutolayoutContext {
         return (responder as? UIViewController) ?? responder.next.flatMap(getViewController)
     }
     
-    private func viewHasAmbiguous(_ view: UIView) -> Bool {
-        return errorViews.contains(view)
+    private func viewHasAmbiguous(_ view: UIView) -> AmbiguousLayout {
+        return AmbiguousLayout(errorConstraints
+            .map { constraint in
+                var result = AmbiguousLayout()
+                if constraint.firstItem === view {
+                    result = [result, AmbiguousLayout(constraint.firstAttribute)]
+                }
+                if constraint.secondItem === view {
+                    result = [result, AmbiguousLayout(constraint.secondAttribute)]
+                }
+                return result
+        })
     }
     
     private func traverse(_ view: UIView, currentViewController: UIViewController) -> Node? {
@@ -60,17 +68,16 @@ class AssertAutolayoutContext {
                 let nextViewController = getViewController(view)
                 if let nextViewController = nextViewController, currentViewController !== nextViewController {
                     if let node = traverse(view, currentViewController: nextViewController) {
-                        return Node(viewClass: type(of: nextViewController), children: [node], hasAmbiguousLayout: false)
+                        return Node(viewClass: type(of: nextViewController), children: [node], ambiguousLayout: .init())
                     }
                     return nil
                 } else {
                     return traverse(view, currentViewController: currentViewController)
                 }
         }
-        if viewHasAmbiguous(view) {
-            return Node(viewClass: type(of: view), children: nodes, hasAmbiguousLayout: true)
-        } else if !nodes.isEmpty {
-            return Node(viewClass: type(of: view), children: nodes, hasAmbiguousLayout: false)
+        let anchors = viewHasAmbiguous(view)
+        if !anchors.isEmpty || !nodes.isEmpty {
+            return Node(viewClass: type(of: view), children: nodes, ambiguousLayout: anchors)
         }
         return nil
     }
@@ -79,7 +86,7 @@ class AssertAutolayoutContext {
         guard let node = traverse(viewController.view, currentViewController: viewController) else {
             return
         }
-        let root = Node(viewClass: type(of: viewController), children: [node], hasAmbiguousLayout: false)
+        let root = Node(viewClass: type(of: viewController), children: [node], ambiguousLayout: .init())
         _assert("\(root.numberOfAmbiguous()) view has ambiguous layout\n" + root.assertMessages().description)
     }
 }
