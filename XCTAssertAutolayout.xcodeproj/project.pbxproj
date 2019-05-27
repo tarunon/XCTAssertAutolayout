@@ -31,7 +31,7 @@
 		OBJ_40 /* CXCTAssertAutolayout.h in Headers */ = {isa = PBXBuildFile; fileRef = OBJ_11 /* CXCTAssertAutolayout.h */; settings = {ATTRIBUTES = (Public, ); }; };
 		OBJ_47 /* AssertAutolayoutContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_14 /* AssertAutolayoutContext.swift */; };
 		OBJ_48 /* CFunctionInjector.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_15 /* CFunctionInjector.swift */; };
-		OBJ_49 /* Core.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* Core.swift */; };
+		OBJ_49 /* Assert.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_16 /* Assert.swift */; };
 		OBJ_50 /* Node.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_17 /* Node.swift */; };
 		OBJ_51 /* AssertAutolayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = OBJ_19 /* AssertAutolayout.swift */; };
 		OBJ_53 /* CXCTAssertAutolayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = "XCTAssertAutolayout::CXCTAssertAutolayout::Product" /* CXCTAssertAutolayout.framework */; };
@@ -92,7 +92,7 @@
 		OBJ_11 /* CXCTAssertAutolayout.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = CXCTAssertAutolayout.h; sourceTree = "<group>"; };
 		OBJ_14 /* AssertAutolayoutContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssertAutolayoutContext.swift; sourceTree = "<group>"; };
 		OBJ_15 /* CFunctionInjector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CFunctionInjector.swift; sourceTree = "<group>"; };
-		OBJ_16 /* Core.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Core.swift; sourceTree = "<group>"; };
+		OBJ_16 /* Assert.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Assert.swift; sourceTree = "<group>"; };
 		OBJ_17 /* Node.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Node.swift; sourceTree = "<group>"; };
 		OBJ_19 /* AssertAutolayout.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AssertAutolayout.swift; sourceTree = "<group>"; };
 		OBJ_22 /* XCTAssertAutolayoutTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = XCTAssertAutolayoutTests.swift; sourceTree = "<group>"; };
@@ -178,7 +178,7 @@
 			children = (
 				OBJ_14 /* AssertAutolayoutContext.swift */,
 				OBJ_15 /* CFunctionInjector.swift */,
-				OBJ_16 /* Core.swift */,
+				OBJ_16 /* Assert.swift */,
 				OBJ_17 /* Node.swift */,
 				D22B9560229B5B0700345997 /* AmbiguousLayout.swift */,
 			);
@@ -432,7 +432,7 @@
 			files = (
 				OBJ_47 /* AssertAutolayoutContext.swift in Sources */,
 				OBJ_48 /* CFunctionInjector.swift in Sources */,
-				OBJ_49 /* Core.swift in Sources */,
+				OBJ_49 /* Assert.swift in Sources */,
 				OBJ_50 /* Node.swift in Sources */,
 				D22B9561229B5B0700345997 /* AmbiguousLayout.swift in Sources */,
 				OBJ_51 /* AssertAutolayout.swift in Sources */,

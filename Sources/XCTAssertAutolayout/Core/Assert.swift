@@ -1,5 +1,5 @@
 //
-//  Core.swift
+//  Assert.swift
 //  XCTAssertNoAmbiguousLayout
 //
 //  Created by tarunon on 2019/04/28.
@@ -19,21 +19,24 @@ func assertNoAmbiguousLayout(_ viewController: @autoclosure () -> UIViewControll
     window.makeKeyAndVisible()
     let viewController = viewController()
     
-    let context = AssertAutolayoutContext(assert: assert, file: file, line: line)
-    
-    var running = true
-    window.rootViewController?.present(viewController, animated: false, completion: {
-        context.assert(viewController: viewController)
-        window.rootViewController?.dismiss(animated: true, completion: {
-            running = false
+    let context = AssertAutolayoutContextInternal(assert: assert, file: file, line: line)
+    context.process { (context) in
+        window.rootViewController?.present(viewController, animated: false, completion: {
+            context.assert(viewController: viewController)
+            window.rootViewController?.dismiss(animated: true, completion: {
+                context.completion()
+            })
         })
-    })
-    while running {
-        RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.1))
     }
     
     window.resignKey()
     origin.makeKeyAndVisible()
     
+    context.finalize()
+}
+
+func assertNoAmbiguousLayout(_ f: (AssertAutolayoutContext) -> (), assert: @escaping (String, StaticString, UInt) -> (), file: StaticString, line: UInt) {
+    let context = AssertAutolayoutContextInternal(assert: assert, file: file, line: line)
+    context.process(f)
     context.finalize()
 }

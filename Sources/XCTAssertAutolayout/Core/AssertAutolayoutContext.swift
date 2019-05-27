@@ -13,33 +13,73 @@ let UIViewAlertForUnsatisfiableConstraintsSymbol = "UIViewAlertForUnsatisfiableC
 
 var _catchAutolayoutError: ((NSLayoutConstraint, [NSLayoutConstraint]) -> ())?
 var hookedUIViewAlertForUnsatisfiableConstraintsPointer: UnsafeRawPointer!
-let injector: CFunctionInjector = try! CFunctionInjector(UIViewAlertForUnsatisfiableConstraintsSymbol)
+var injector: CFunctionInjector?
 
 // make c function pointer by convention attribute
 let hookedUIViewAlertForUnsatisfiableConstraints: (@convention(c) (NSLayoutConstraint, [NSLayoutConstraint]) -> Void) = { (constraint: NSLayoutConstraint, allConstraints: [NSLayoutConstraint]) in
     _catchAutolayoutError?(constraint, allConstraints)
-    injector.reset()
+    injector?.reset()
     UIViewAlertForUnsatisfiableConstraints(constraint, allConstraints)
-    injector.inject(hookedUIViewAlertForUnsatisfiableConstraintsPointer)
+    injector?.inject(hookedUIViewAlertForUnsatisfiableConstraintsPointer)
 }
 
-class AssertAutolayoutContext {
-    private let _assert: (String) -> ()
-    private var errorConstraints: [NSLayoutConstraint] = []
+public class AssertAutolayoutContext {
+    let internalContext: AssertAutolayoutContextInternal
+    
+    init(internalContext: AssertAutolayoutContextInternal) {
+        self.internalContext = internalContext
+    }
+    
+    public func assert(viewController: UIViewController, file: StaticString = #function, line: UInt = #line) {
+        guard let node = internalContext.traverse(viewController.view, currentViewController: viewController) else {
+            return
+        }
+        let root = Node(viewClass: type(of: viewController), children: [node], ambiguousLayout: .init())
+        internalContext._assert("\(root.numberOfAmbiguous()) view has ambiguous layout\n" + root.assertMessages().description, file, line)
+    }
+    
+    public func completion() {
+        internalContext.completed = true
+    }
+    
+    deinit {
+        if !internalContext.completed {
+            internalContext._assert("context.completion() must call", internalContext.file, internalContext.line)
+        }
+        internalContext.completed = true
+    }
+    
+}
+
+class AssertAutolayoutContextInternal {
+    let _assert: (String, StaticString, UInt) -> ()
+    let file: StaticString
+    let line: UInt
+    var errorConstraints: [NSLayoutConstraint] = []
+    var completed = false
     
     init(assert: @escaping (String, StaticString, UInt) -> (), file: StaticString, line: UInt) {
-        _assert = { assert($0, file, line) }
+        self._assert = assert
+        self.file = file
+        self.line = line
         _catchAutolayoutError = { _, allConstraints in
             self.errorConstraints += allConstraints
         }
+        if injector == nil {
+            do {
+                injector = try CFunctionInjector(UIViewAlertForUnsatisfiableConstraintsSymbol)
+            } catch {
+                _assert("XCTAssertAutolayout should run in iPhoneSimulator, cannot run on real Devices. (\(error))", file, line)
+            }
+        }
         
         hookedUIViewAlertForUnsatisfiableConstraintsPointer = unsafeBitCast(hookedUIViewAlertForUnsatisfiableConstraints, to: UnsafeRawPointer.self)
-        injector.inject(hookedUIViewAlertForUnsatisfiableConstraintsPointer)
+        injector?.inject(hookedUIViewAlertForUnsatisfiableConstraintsPointer)
     }
     
     func finalize() {
         _catchAutolayoutError = nil
-        injector.reset()
+        injector?.reset()
     }
     
     private func getViewController(_ responder: UIResponder) -> UIViewController? {
@@ -60,7 +100,7 @@ class AssertAutolayoutContext {
         })
     }
     
-    private func traverse(_ view: UIView, currentViewController: UIViewController) -> Node? {
+    func traverse(_ view: UIView, currentViewController: UIViewController) -> Node? {
         let nodes = view.subviews
             .compactMap { view -> Node? in
                 let nextViewController = getViewController(view)
@@ -80,12 +120,10 @@ class AssertAutolayoutContext {
         return nil
     }
     
-    func assert(viewController: UIViewController) {
-        guard let node = traverse(viewController.view, currentViewController: viewController) else {
-            return
+    func process(_ f: (AssertAutolayoutContext) -> ()) {
+        f(AssertAutolayoutContext(internalContext: self))
+        while !completed {
+            RunLoop.current.run(until: Date(timeIntervalSinceNow: 0.1))
         }
-        let root = Node(viewClass: type(of: viewController), children: [node], ambiguousLayout: .init())
-        _assert("\(root.numberOfAmbiguous()) view has ambiguous layout\n" + root.assertMessages().description)
     }
 }
-
