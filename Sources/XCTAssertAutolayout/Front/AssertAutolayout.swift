@@ -16,7 +16,7 @@ import UIKit
 /// - Parameters:
 ///   - viewController: The asssert target.
 public func XCTAssertAutolayout(file: StaticString = #file, line: UInt = #line, _ viewController: @autoclosure () -> UIViewController) {
-    assertNoAmbiguousLayout(viewController(), assert: XCTFail, file: file, line: line)
+    assertAutolayout(viewController(), assert: XCTFail, file: file, line: line)
 }
 
 /// Generates a failure if the viewController has ambigous layout.
@@ -26,5 +26,5 @@ public func XCTAssertAutolayout(file: StaticString = #file, line: UInt = #line, 
 /// - Parameters:
 ///   - f: The closure givven autolayout test context.
 public func XCTAssertAutolayout(file: StaticString = #file, line: UInt = #line, _ f: (AssertAutolayoutContext) -> ()) {
-    assertNoAmbiguousLayout(f, assert: XCTFail, file: file, line: line)
+    assertAutolayout(f, assert: XCTFail, file: file, line: line)
 }

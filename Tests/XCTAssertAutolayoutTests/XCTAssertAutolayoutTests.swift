@@ -5,7 +5,7 @@ import UIKit
 final class XCTAssertAutolayoutTests: XCTestCase {
     func getAssertMessages(_ viewController: UIViewController) -> [String] {
         var assertMessages = [String]()
-        assertNoAmbiguousLayout(viewController, assert: { message, _, _ in
+        assertAutolayout(viewController, assert: { message, _, _ in
             assertMessages.append(message)
         }, file: #file, line: #line)
         return assertMessages
@@ -13,7 +13,7 @@ final class XCTAssertAutolayoutTests: XCTestCase {
     
     func getAssertMessages(_ f: (AssertAutolayoutContext) -> ()) -> [String] {
         var assertMessages = [String]()
-        assertNoAmbiguousLayout(f, assert: { (message, _, _) in
+        assertAutolayout(f, assert: { (message, _, _) in
             assertMessages.append(message)
         }, file: #file, line: #line)
         return assertMessages

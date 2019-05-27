@@ -8,7 +8,7 @@
 
 import UIKit
 
-func assertNoAmbiguousLayout(_ viewController: @autoclosure () -> UIViewController, assert: @escaping (String, StaticString, UInt) -> (), file: StaticString, line: UInt) {
+func assertAutolayout(_ viewController: @autoclosure () -> UIViewController, assert: @escaping (String, StaticString, UInt) -> (), file: StaticString, line: UInt) {
     
     guard let origin = UIApplication.shared.keyWindow else {
         assert("Should set Host Application at Test target.", file, line)
@@ -35,7 +35,7 @@ func assertNoAmbiguousLayout(_ viewController: @autoclosure () -> UIViewControll
     context.finalize()
 }
 
-func assertNoAmbiguousLayout(_ f: (AssertAutolayoutContext) -> (), assert: @escaping (String, StaticString, UInt) -> (), file: StaticString, line: UInt) {
+func assertAutolayout(_ f: (AssertAutolayoutContext) -> (), assert: @escaping (String, StaticString, UInt) -> (), file: StaticString, line: UInt) {
     let context = AssertAutolayoutContextInternal(assert: assert, file: file, line: line)
     context.process(f)
     context.finalize()
