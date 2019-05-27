@@ -21,5 +21,5 @@ Swift 4.2~
 
 ## Carthage
 ```rb
-github "tarunon/XCTAssertAutolayout" "0.1.0"
+github "tarunon/XCTAssertAutolayout"
 ```
