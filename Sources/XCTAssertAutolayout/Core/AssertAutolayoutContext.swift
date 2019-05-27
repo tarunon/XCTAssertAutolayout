@@ -35,7 +35,7 @@ public class AssertAutolayoutContext {
             return
         }
         let root = Node(viewClass: type(of: viewController), children: [node], ambiguousLayout: .init())
-        internalContext._assert("\(root.numberOfAmbiguous()) view has ambiguous layout\n" + root.assertMessages().description, file, line)
+        internalContext._assert("\(root.numberOfAmbiguous()) view has ambiguous layout\n" + root.assertMessages(), file, line)
     }
     
     public func completion() {

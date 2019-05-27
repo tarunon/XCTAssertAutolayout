@@ -17,12 +17,12 @@ func assertAutolayout(_ viewController: @autoclosure () -> UIViewController, ass
     let window = UIWindow(frame: UIScreen.main.bounds)
     window.rootViewController = UIViewController()
     window.makeKeyAndVisible()
-    let viewController = viewController()
     
     let context = AssertAutolayoutContextInternal(assert: assert, file: file, line: line)
     context.process { (context) in
+        let viewController = viewController()
         window.rootViewController?.present(viewController, animated: false, completion: {
-            context.assert(viewController: viewController)
+            context.assert(viewController: viewController, file: file, line: line)
             window.rootViewController?.dismiss(animated: true, completion: {
                 context.completion()
             })

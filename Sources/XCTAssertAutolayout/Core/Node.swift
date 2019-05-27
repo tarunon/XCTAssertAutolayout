@@ -12,41 +12,25 @@ struct Node {
     var children: [Node]
     var ambiguousLayout: AmbiguousLayout
     
-    struct AssertMessage: CustomStringConvertible {
-        var head: String
-        var body: [AssertMessage]
-        
-        var descriptions: [String] {
-            if body.isEmpty {
-                return [head]
-            }
-            let headDesc = [head]
-            let bodyDesc = body.dropLast().flatMap { assertMessage -> [String] in
-                let descs = assertMessage.descriptions
-                let headDesc = descs.first.map { "┣" + $0 }
-                let bodyDesc = descs.dropFirst().map { "┃" + $0 }
-                return [headDesc!] + bodyDesc
-            }
-            let bodyLastDesc = body.last.map { assertMessage -> [String] in
-                let descs = assertMessage.descriptions
-                let headDesc = descs.first.map { "┗" + $0 }
-                let bodyDesc = descs.dropFirst().map { "  " + $0 }
-                return [headDesc!] + bodyDesc
-            }
-            return headDesc + bodyDesc + bodyLastDesc!
-        }
-        
-        var description: String {
-            return descriptions.joined(separator: "\n")
-        }
-    }
-    
     func numberOfAmbiguous() -> Int {
         return children.map { $0.numberOfAmbiguous() }.reduce(ambiguousLayout.isEmpty ? 0 : 1) { $0 + $1 }
     }
     
-    func assertMessages() -> AssertMessage {
+    func generateDescriptionTree() -> [String] {
         let head = "\(viewClass)\(ambiguousLayout)"
-        return AssertMessage(head: head, body: children.map { $0.assertMessages() })
+        if children.isEmpty { return [head] }
+        return [head] +
+            children.dropLast().flatMap { node -> [String] in
+                let bodies = node.generateDescriptionTree()
+                return ["┣" + bodies.first!] + bodies.dropFirst().map { "┃" + $0 }
+            } +
+            children.last.map { node -> [String] in
+                let bodies = node.generateDescriptionTree()
+                return ["┗" + bodies.first!] + bodies.dropFirst().map { "  " + $0 }
+            }!
+    }
+    
+    func assertMessages() -> String {
+        return generateDescriptionTree().joined(separator: "\n")
     }
 }
