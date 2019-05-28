@@ -28,6 +28,5 @@ github "tarunon/XCTAssertAutolayout"
 ## CocoaPods
 Write it below Pods for testing.
 ```rb
-pod 'CXCTAssertAutolayout'
 pod 'XCTAssertAutolayout'
 ```
