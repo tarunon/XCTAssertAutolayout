@@ -3,7 +3,7 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 50;
+	objectVersion = 52;
 	objects = {
 
 /* Begin PBXBuildFile section */
@@ -13,7 +13,7 @@
 		D22D5D5922940FE500A3A402 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D22D5D5822940FE500A3A402 /* Assets.xcassets */; };
 		D22D5D5C22940FE500A3A402 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D22D5D5A22940FE500A3A402 /* LaunchScreen.storyboard */; };
 		D22D5D6722940FE600A3A402 /* XCTAssertAutolayoutExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22D5D6622940FE600A3A402 /* XCTAssertAutolayoutExampleTests.swift */; };
-		D62F65582296573100175D64 /* XCTAssertAutolayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D62F65572296573100175D64 /* XCTAssertAutolayout.framework */; };
+		D2782E0722A7738700903D31 /* XCTAssertAutolayout in Frameworks */ = {isa = PBXBuildFile; productRef = D2782E0622A7738700903D31 /* XCTAssertAutolayout */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,7 +45,6 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D62F65582296573100175D64 /* XCTAssertAutolayout.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -53,6 +52,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				D2782E0722A7738700903D31 /* XCTAssertAutolayout in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -142,6 +142,9 @@
 				D22D5D6422940FE600A3A402 /* PBXTargetDependency */,
 			);
 			name = XCTAssertAutolayoutExampleTests;
+			packageProductDependencies = (
+				D2782E0622A7738700903D31 /* XCTAssertAutolayout */,
+			);
 			productName = XCTAssertAutolayoutExampleTests;
 			productReference = D22D5D6222940FE600A3A402 /* XCTAssertAutolayoutExampleTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -174,6 +177,9 @@
 				Base,
 			);
 			mainGroup = D22D5D4522940FE300A3A402;
+			packageReferences = (
+				D2782E0522A7738700903D31 /* XCRemoteSwiftPackageReference "XCTAssertAutolayout" */,
+			);
 			productRefGroup = D22D5D4F22940FE300A3A402 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -477,6 +483,25 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		D2782E0522A7738700903D31 /* XCRemoteSwiftPackageReference "XCTAssertAutolayout" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/tarunon/XCTAssertAutolayout.git";
+			requirement = {
+				branch = master;
+				kind = branch;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		D2782E0622A7738700903D31 /* XCTAssertAutolayout */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = D2782E0522A7738700903D31 /* XCRemoteSwiftPackageReference "XCTAssertAutolayout" */;
+			productName = XCTAssertAutolayout;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D22D5D4622940FE300A3A402 /* Project object */;
 }
