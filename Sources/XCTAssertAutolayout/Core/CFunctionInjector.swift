@@ -15,8 +15,10 @@ class CFunctionInjector {
         var errorDescription: String? { return description }
     }
     
-    var origin: UnsafeMutablePointer<Int64>
-    var escapedInstructionBytes: Int64
+    var originalFunctionPointer0: UnsafeMutablePointer<Int64>
+    var originalFunctionPointer8: UnsafeMutablePointer<Int64>
+    var escapedInstructionBytes0: Int64
+    var escapedInstructionBytes8: Int64
     
     /// Initialize CFunctionInjector object.
     /// This method remove original c functions memory protection.
@@ -41,7 +43,7 @@ class CFunctionInjector {
         }
         
         let start = Int(bitPattern: origin)
-        let end = start + 1
+        let end = start + 2
         let pageStart = start & -pageSize
         let status = mprotect(UnsafeMutableRawPointer(bitPattern: pageStart),
                               end - pageStart,
@@ -49,8 +51,10 @@ class CFunctionInjector {
         if status == -1 {
             throw Error(message: "failed to change memory protection: errno=\(errno)")
         }
-        self.origin = origin.assumingMemoryBound(to: Int64.self)
-        self.escapedInstructionBytes = self.origin.pointee
+        self.originalFunctionPointer0 = origin.assumingMemoryBound(to: Int64.self)
+        self.escapedInstructionBytes0 = originalFunctionPointer0.pointee
+        self.originalFunctionPointer8 = UnsafeMutablePointer(bitPattern: Int(bitPattern: origin) + 8)!
+        self.escapedInstructionBytes8 = originalFunctionPointer8.pointee
     }
     
     deinit {
@@ -59,22 +63,18 @@ class CFunctionInjector {
     
     /// Inject c function to c function.
     /// Ref: https://github.com/thomasfinch/CRuntimeFunctionHooker/blob/master/inject.c
-    ///
+    /// 
     /// - Parameters:
     ///   - target: c function pointer.
     func inject(_ target: UnsafeRawPointer) {
         assert(Thread.isMainThread)
-        
-        // Calculate the relative offset needed for the jump instruction.
-        // Since relative jumps are calculated from the address of the next instruction,
-        // 5 bytes must be added to the original address (jump instruction is 5 bytes).
-        let offset = Int(bitPattern: target) - (Int(bitPattern: origin) + 5)
 
         // Set the first instruction of the original function to be a jump to the replacement function.
-        // 0xe9 is the x86 opcode for an unconditional relative jump.
-        let instruction: Int64 = 0xe9 | Int64(offset) << 8
-        
-        origin.pointee = instruction
+
+        // 1. mov rax %target
+        originalFunctionPointer0.pointee = 0xb848 | Int64(Int(bitPattern: target)) << 16
+        // 2. jmp rax
+        originalFunctionPointer8.pointee = 0xe0ff0000
     }
     
     /// Reset function injection.
@@ -83,6 +83,7 @@ class CFunctionInjector {
     /// - Parameter symbol: c function name.
     func reset() {
         assert(Thread.isMainThread)
-        origin.pointee = escapedInstructionBytes
+        originalFunctionPointer0.pointee = escapedInstructionBytes0
+        originalFunctionPointer8.pointee = escapedInstructionBytes8
     }
 }
