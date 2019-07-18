@@ -71,10 +71,12 @@ class CFunctionInjector {
 
         // Set the first instruction of the original function to be a jump to the replacement function.
 
+        let targetAddress = Int64(Int(bitPattern: target))
+
         // 1. mov rax %target
-        originalFunctionPointer0.pointee = 0xb848 | Int64(Int(bitPattern: target)) << 16
+        originalFunctionPointer0.pointee = 0xb848 | targetAddress << 16
         // 2. jmp rax
-        originalFunctionPointer8.pointee = 0xe0ff0000
+        originalFunctionPointer8.pointee = 0xe0ff << 16 | targetAddress >> 48
     }
     
     /// Reset function injection.
