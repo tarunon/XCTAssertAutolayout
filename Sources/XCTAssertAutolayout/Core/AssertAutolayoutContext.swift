@@ -30,7 +30,7 @@ public class AssertAutolayoutContext {
         self.internalContext = internalContext
     }
     
-    public func assert(viewController: UIViewController, file: StaticString = #function, line: UInt = #line) {
+    public func assert(viewController: UIViewController, file: StaticString = #file, line: UInt = #line) {
         guard let node = internalContext.traverse(viewController.view, currentViewController: viewController) else {
             return
         }
