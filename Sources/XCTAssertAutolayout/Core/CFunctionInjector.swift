@@ -21,28 +21,37 @@ class CFunctionInjector {
     var escapedInstructionBytes8: Int64
     
     /// Initialize CFunctionInjector object.
-    /// This method remove original c functions memory protection.
+    /// This method remove target c functions memory protection.
     /// Ref: https://github.com/thomasfinch/CRuntimeFunctionHooker/blob/master/inject.c
     ///
     /// - Parameter symbol: c function name
     /// - Throws: Error that fail CFunctionInjector initialize
-    init(_ symbol: String) throws {
+    convenience init(_ symbol: String) throws {
         assert(Thread.isMainThread)
 
         // dlfcn.h
         // #define    RTLD_DEFAULT    ((void *) -2)    /* Use default search algorithm. */
         let RTLD_DEFAULT = UnsafeMutableRawPointer(bitPattern: -2)
 
-        guard let origin = dlsym(RTLD_DEFAULT, symbol) else {
+        guard let target = dlsym(RTLD_DEFAULT, symbol) else {
             throw Error(message: "symbol not found: \(symbol)")
         }
+        try self.init(target)
+    }
+    
+    /// Initialize CFunctionInjector object.
+    /// This method remove target c functions memory protection.
+    /// Ref: https://github.com/thomasfinch/CRuntimeFunctionHooker/blob/master/inject.c
+    ///
+    /// - Parameter target: c function pointer.
+    init(_ target: UnsafeMutableRawPointer) throws {
         // make the memory containing the original function writable
         let pageSize = sysconf(_SC_PAGESIZE)
         if pageSize == -1 {
             throw Error(message: "failed to read memory page size: errno=\(errno)")
         }
         
-        let start = Int(bitPattern: origin)
+        let start = Int(bitPattern: target)
         let end = start + 2
         let pageStart = start & -pageSize
         let status = mprotect(UnsafeMutableRawPointer(bitPattern: pageStart),
@@ -51,9 +60,9 @@ class CFunctionInjector {
         if status == -1 {
             throw Error(message: "failed to change memory protection: errno=\(errno)")
         }
-        self.originalFunctionPointer0 = origin.assumingMemoryBound(to: Int64.self)
+        self.originalFunctionPointer0 = target.assumingMemoryBound(to: Int64.self)
         self.escapedInstructionBytes0 = originalFunctionPointer0.pointee
-        self.originalFunctionPointer8 = UnsafeMutablePointer(bitPattern: Int(bitPattern: origin) + 8)!
+        self.originalFunctionPointer8 = UnsafeMutablePointer(bitPattern: Int(bitPattern: target) + 8)!
         self.escapedInstructionBytes8 = originalFunctionPointer8.pointee
     }
     
@@ -65,13 +74,13 @@ class CFunctionInjector {
     /// Ref: https://github.com/thomasfinch/CRuntimeFunctionHooker/blob/master/inject.c
     /// 
     /// - Parameters:
-    ///   - target: c function pointer.
-    func inject(_ target: UnsafeRawPointer) {
+    ///   - destination: c function pointer.
+    func inject(_ destination: UnsafeRawPointer) {
         assert(Thread.isMainThread)
 
         // Set the first instruction of the original function to be a jump to the replacement function.
 
-        let targetAddress = Int64(Int(bitPattern: target))
+        let targetAddress = Int64(Int(bitPattern: destination))
 
         // 1. mov rax %target
         originalFunctionPointer0.pointee = 0xb848 | targetAddress << 16
