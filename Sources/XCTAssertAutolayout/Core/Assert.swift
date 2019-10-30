@@ -9,32 +9,19 @@
 import UIKit
 
 func assertAutolayout(_ viewController: @autoclosure () -> UIViewController, assert: @escaping (String, StaticString, UInt) -> (), file: StaticString, line: UInt) {
-    
-    guard let origin = UIApplication.shared.keyWindow else {
-        assert("Should set Host Application at Test target.", file, line)
-        return
-    }
+    let internalContext = AssertAutolayoutContextInternal(assert: assert, file: file, line: line)
+    let context = AssertAutolayoutContext(internalContext: internalContext)
+
+    let targetViewController = viewController()
     let window = UIWindow(frame: UIScreen.main.bounds)
-    window.rootViewController = UIViewController()
-    window.makeKeyAndVisible()
+    window.rootViewController = targetViewController
+    window.isHidden = false
+    window.setNeedsLayout()
+    window.layoutIfNeeded()
 
-    RunLoop.current.run(until: Date(timeIntervalSince1970: 0.0)) // go to next run loop
-
-    let context = AssertAutolayoutContextInternal(assert: assert, file: file, line: line)
-    context.process { (context) in
-        let viewController = viewController()
-        window.rootViewController?.present(viewController, animated: false, completion: {
-            context.assert(viewController: viewController, file: file, line: line)
-            window.rootViewController?.dismiss(animated: false, completion: {
-                context.completion()
-            })
-        })
-    }
-    
-    window.resignKey()
-    origin.makeKeyAndVisible()
-    
-    context.finalize()
+    context.assert(viewController: targetViewController, file: file, line: line)
+    context.completion()
+    internalContext.finalize()
 }
 
 func assertAutolayout(_ f: (AssertAutolayoutContext) -> (), assert: @escaping (String, StaticString, UInt) -> (), file: StaticString, line: UInt) {

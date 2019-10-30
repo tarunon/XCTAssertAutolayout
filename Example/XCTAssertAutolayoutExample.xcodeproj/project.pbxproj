@@ -3,20 +3,49 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 52;
+	objectVersion = 50;
 	objects = {
 
 /* Begin PBXBuildFile section */
+		6B1FB57A23696C120063ED46 /* XCTAssertAutolayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B1FB57523696C080063ED46 /* XCTAssertAutolayout.framework */; };
+		6B1FB57B23696D000063ED46 /* XCTAssertAutolayout.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6B1FB57523696C080063ED46 /* XCTAssertAutolayout.framework */; };
 		D22D5D5222940FE300A3A402 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22D5D5122940FE300A3A402 /* AppDelegate.swift */; };
 		D22D5D5422940FE300A3A402 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22D5D5322940FE300A3A402 /* ViewController.swift */; };
 		D22D5D5722940FE300A3A402 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D22D5D5522940FE300A3A402 /* Main.storyboard */; };
 		D22D5D5922940FE500A3A402 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D22D5D5822940FE500A3A402 /* Assets.xcassets */; };
 		D22D5D5C22940FE500A3A402 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D22D5D5A22940FE500A3A402 /* LaunchScreen.storyboard */; };
 		D22D5D6722940FE600A3A402 /* XCTAssertAutolayoutExampleTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22D5D6622940FE600A3A402 /* XCTAssertAutolayoutExampleTests.swift */; };
-		D2782E0722A7738700903D31 /* XCTAssertAutolayout in Frameworks */ = {isa = PBXBuildFile; productRef = D2782E0622A7738700903D31 /* XCTAssertAutolayout */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
+		6B1FB57223696C080063ED46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B1FB56923696C080063ED46 /* XCTAssertAutolayout.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "XCTAssertAutolayout::CXCTAssertAutolayout::Product";
+			remoteInfo = CXCTAssertAutolayout;
+		};
+		6B1FB57423696C080063ED46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B1FB56923696C080063ED46 /* XCTAssertAutolayout.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "XCTAssertAutolayout::XCTAssertAutolayout::Product";
+			remoteInfo = XCTAssertAutolayout;
+		};
+		6B1FB57623696C080063ED46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B1FB56923696C080063ED46 /* XCTAssertAutolayout.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = "XCTAssertAutolayout::XCTAssertAutolayoutTests::Product";
+			remoteInfo = XCTAssertAutolayoutTests;
+		};
+		6B1FB57823696C080063ED46 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6B1FB56923696C080063ED46 /* XCTAssertAutolayout.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D258BE862296889E008ED47E;
+			remoteInfo = XCTAssertAutolayoutTestApp;
+		};
 		D22D5D6322940FE600A3A402 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = D22D5D4622940FE300A3A402 /* Project object */;
@@ -27,6 +56,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		6B1FB56923696C080063ED46 /* XCTAssertAutolayout.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = XCTAssertAutolayout.xcodeproj; path = ../XCTAssertAutolayout.xcodeproj; sourceTree = "<group>"; };
 		D22D5D4E22940FE300A3A402 /* XCTAssertAutolayoutExample.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCTAssertAutolayoutExample.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D22D5D5122940FE300A3A402 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D22D5D5322940FE300A3A402 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -45,6 +75,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				6B1FB57A23696C120063ED46 /* XCTAssertAutolayout.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,16 +83,28 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D2782E0722A7738700903D31 /* XCTAssertAutolayout in Frameworks */,
+				6B1FB57B23696D000063ED46 /* XCTAssertAutolayout.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		6B1FB56A23696C080063ED46 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6B1FB57323696C080063ED46 /* CXCTAssertAutolayout.framework */,
+				6B1FB57523696C080063ED46 /* XCTAssertAutolayout.framework */,
+				6B1FB57723696C080063ED46 /* XCTAssertAutolayoutTests.xctest */,
+				6B1FB57923696C080063ED46 /* XCTAssertAutolayoutTestApp.app */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
 		D22D5D4522940FE300A3A402 = {
 			isa = PBXGroup;
 			children = (
+				6B1FB56923696C080063ED46 /* XCTAssertAutolayout.xcodeproj */,
 				D22D5D5022940FE300A3A402 /* XCTAssertAutolayoutExample */,
 				D22D5D6522940FE600A3A402 /* XCTAssertAutolayoutExampleTests */,
 				D22D5D4F22940FE300A3A402 /* Products */,
@@ -143,7 +186,6 @@
 			);
 			name = XCTAssertAutolayoutExampleTests;
 			packageProductDependencies = (
-				D2782E0622A7738700903D31 /* XCTAssertAutolayout */,
 			);
 			productName = XCTAssertAutolayoutExampleTests;
 			productReference = D22D5D6222940FE600A3A402 /* XCTAssertAutolayoutExampleTests.xctest */;
@@ -178,10 +220,15 @@
 			);
 			mainGroup = D22D5D4522940FE300A3A402;
 			packageReferences = (
-				D2782E0522A7738700903D31 /* XCRemoteSwiftPackageReference "XCTAssertAutolayout" */,
 			);
 			productRefGroup = D22D5D4F22940FE300A3A402 /* Products */;
 			projectDirPath = "";
+			projectReferences = (
+				{
+					ProductGroup = 6B1FB56A23696C080063ED46 /* Products */;
+					ProjectRef = 6B1FB56923696C080063ED46 /* XCTAssertAutolayout.xcodeproj */;
+				},
+			);
 			projectRoot = "";
 			targets = (
 				D22D5D4D22940FE300A3A402 /* XCTAssertAutolayoutExample */,
@@ -189,6 +236,37 @@
 			);
 		};
 /* End PBXProject section */
+
+/* Begin PBXReferenceProxy section */
+		6B1FB57323696C080063ED46 /* CXCTAssertAutolayout.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = CXCTAssertAutolayout.framework;
+			remoteRef = 6B1FB57223696C080063ED46 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6B1FB57523696C080063ED46 /* XCTAssertAutolayout.framework */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.framework;
+			path = XCTAssertAutolayout.framework;
+			remoteRef = 6B1FB57423696C080063ED46 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6B1FB57723696C080063ED46 /* XCTAssertAutolayoutTests.xctest */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.cfbundle;
+			path = XCTAssertAutolayoutTests.xctest;
+			remoteRef = 6B1FB57623696C080063ED46 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		6B1FB57923696C080063ED46 /* XCTAssertAutolayoutTestApp.app */ = {
+			isa = PBXReferenceProxy;
+			fileType = wrapper.application;
+			path = XCTAssertAutolayoutTestApp.app;
+			remoteRef = 6B1FB57823696C080063ED46 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+/* End PBXReferenceProxy section */
 
 /* Begin PBXResourcesBuildPhase section */
 		D22D5D4C22940FE300A3A402 /* Resources */ = {
@@ -483,25 +561,6 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
-
-/* Begin XCRemoteSwiftPackageReference section */
-		D2782E0522A7738700903D31 /* XCRemoteSwiftPackageReference "XCTAssertAutolayout" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/tarunon/XCTAssertAutolayout.git";
-			requirement = {
-				branch = master;
-				kind = branch;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
-/* Begin XCSwiftPackageProductDependency section */
-		D2782E0622A7738700903D31 /* XCTAssertAutolayout */ = {
-			isa = XCSwiftPackageProductDependency;
-			package = D2782E0522A7738700903D31 /* XCRemoteSwiftPackageReference "XCTAssertAutolayout" */;
-			productName = XCTAssertAutolayout;
-		};
-/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = D22D5D4622940FE300A3A402 /* Project object */;
 }
