@@ -11,8 +11,6 @@ Found ambiguous layout from hooked UIViewAlertForUnsatisfiableConstraints.
 
 # Requirement
 - This function doesn't work on real device. Should run on iPhone Simulator.
-- This function use UIWindow so it is required that install HostApplication in your test case.
-![](https://github.com/tarunon/XCTAssertAutolayout/blob/master/Readme/hostapp.png?raw=true)
 
 # Support version
 iOS 9.0~
