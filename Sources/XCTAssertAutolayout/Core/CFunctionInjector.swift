@@ -56,7 +56,7 @@ class CFunctionInjector {
         }
         
         let start = Int(bitPattern: target)
-        let end = start + 3
+        let end = start + 3 * 8
         let pageStart = start & -pageSize
         let size = end - pageStart
         self.textRange = (UnsafeMutableRawPointer(bitPattern: pageStart), size)
