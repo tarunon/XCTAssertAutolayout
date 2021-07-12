@@ -72,6 +72,8 @@ class CFunctionInjector {
         reset()
     }
     
+    /// Disable EXEC and write TEXT segment memory, then enable EXEC again.
+    /// Ref: https://developer.apple.com/documentation/apple-silicon/porting-just-in-time-compilers-to-apple-silicon
     private func writeText(_ writer: () -> Void) {
         var status = mprotect(textRange.start, textRange.size, PROT_READ | PROT_WRITE)
         if status == -1 {
