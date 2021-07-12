@@ -19,6 +19,7 @@ class CFunctionInjector {
     var originalFunctionPointer8: UnsafeMutablePointer<Int64>
     var escapedInstructionBytes0: Int64
     var escapedInstructionBytes8: Int64
+    let textRange: (start: UnsafeMutableRawPointer?, size: Int)
     
     /// Initialize CFunctionInjector object.
     /// This method remove target c functions memory protection.
@@ -54,12 +55,8 @@ class CFunctionInjector {
         let start = Int(bitPattern: target)
         let end = start + 2
         let pageStart = start & -pageSize
-        let status = mprotect(UnsafeMutableRawPointer(bitPattern: pageStart),
-                              end - pageStart,
-                              PROT_READ | PROT_WRITE | PROT_EXEC)
-        if status == -1 {
-            throw Error(message: "failed to change memory protection: errno=\(errno)")
-        }
+        let size = end - pageStart
+        self.textRange = (UnsafeMutableRawPointer(bitPattern: pageStart), size)
         self.originalFunctionPointer0 = target.assumingMemoryBound(to: Int64.self)
         self.escapedInstructionBytes0 = originalFunctionPointer0.pointee
         self.originalFunctionPointer8 = UnsafeMutablePointer(bitPattern: Int(bitPattern: target) + 8)!
@@ -70,6 +67,17 @@ class CFunctionInjector {
         reset()
     }
     
+    private func writeText(_ writer: () -> Void) {
+        var status = mprotect(textRange.start, textRange.size, PROT_READ | PROT_WRITE)
+        if status == -1 {
+            fatalError("failed to add write flag to memory protection: errno=\(errno)")
+        }
+        writer()
+        status = mprotect(textRange.start, textRange.size, PROT_READ | PROT_EXEC)
+        if status == -1 {
+            fatalError("failed to add exec flag to memory protection: errno=\(errno)")
+        }
+    }
     /// Inject c function to c function.
     /// Ref: https://github.com/thomasfinch/CRuntimeFunctionHooker/blob/master/inject.c
     /// 
@@ -77,15 +85,16 @@ class CFunctionInjector {
     ///   - destination: c function pointer.
     func inject(_ destination: UnsafeRawPointer) {
         assert(Thread.isMainThread)
+        writeText {
+            // Set the first instruction of the original function to be a jump to the replacement function.
 
-        // Set the first instruction of the original function to be a jump to the replacement function.
+            let targetAddress = Int64(Int(bitPattern: destination))
 
-        let targetAddress = Int64(Int(bitPattern: destination))
-
-        // 1. mov rax %target
-        originalFunctionPointer0.pointee = 0xb848 | targetAddress << 16
-        // 2. jmp rax
-        originalFunctionPointer8.pointee = 0xe0ff << 16 | targetAddress >> 48
+            // 1. mov rax %target
+            originalFunctionPointer0.pointee = 0xb848 | targetAddress << 16
+            // 2. jmp rax
+            originalFunctionPointer8.pointee = 0xe0ff << 16 | targetAddress >> 48
+        }
     }
     
     /// Reset function injection.
@@ -94,7 +103,9 @@ class CFunctionInjector {
     /// - Parameter symbol: c function name.
     func reset() {
         assert(Thread.isMainThread)
-        originalFunctionPointer0.pointee = escapedInstructionBytes0
-        originalFunctionPointer8.pointee = escapedInstructionBytes8
+        writeText {
+            originalFunctionPointer0.pointee = escapedInstructionBytes0
+            originalFunctionPointer8.pointee = escapedInstructionBytes8
+        }
     }
 }
