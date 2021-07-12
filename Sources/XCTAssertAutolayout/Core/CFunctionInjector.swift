@@ -15,10 +15,12 @@ class CFunctionInjector {
         var errorDescription: String? { return description }
     }
     
-    var originalFunctionPointer0: UnsafeMutablePointer<Int64>
-    var originalFunctionPointer8: UnsafeMutablePointer<Int64>
-    var escapedInstructionBytes0: Int64
-    var escapedInstructionBytes8: Int64
+    var originalFunctionPointer0: UnsafeMutablePointer<UInt64>
+    var originalFunctionPointer8: UnsafeMutablePointer<UInt64>
+    var originalFunctionPointer16: UnsafeMutablePointer<UInt64>
+    var escapedInstructionBytes0: UInt64
+    var escapedInstructionBytes8: UInt64
+    var escapedInstructionBytes16: UInt64
     let textRange: (start: UnsafeMutableRawPointer?, size: Int)
     
     /// Initialize CFunctionInjector object.
@@ -53,14 +55,16 @@ class CFunctionInjector {
         }
         
         let start = Int(bitPattern: target)
-        let end = start + 2
+        let end = start + 3
         let pageStart = start & -pageSize
         let size = end - pageStart
         self.textRange = (UnsafeMutableRawPointer(bitPattern: pageStart), size)
-        self.originalFunctionPointer0 = target.assumingMemoryBound(to: Int64.self)
+        self.originalFunctionPointer0 = target.assumingMemoryBound(to: UInt64.self)
         self.escapedInstructionBytes0 = originalFunctionPointer0.pointee
         self.originalFunctionPointer8 = UnsafeMutablePointer(bitPattern: Int(bitPattern: target) + 8)!
         self.escapedInstructionBytes8 = originalFunctionPointer8.pointee
+        self.originalFunctionPointer16 = UnsafeMutablePointer(bitPattern: Int(bitPattern: target) + 16)!
+        self.escapedInstructionBytes16 = originalFunctionPointer16.pointee
     }
     
     deinit {
@@ -90,10 +94,32 @@ class CFunctionInjector {
 
             let targetAddress = Int64(Int(bitPattern: destination))
 
+            #if arch(arm64)
+            // Since x8 is not used as indirect result location,
+            // so it can be used to point the trampoline.
+            // 1. mov     x8, %target
+            //    mov     x8, (%target & 0xffff)
+            //    movk    x8, (%target >> 16 & 0xffff), lsl #16
+            //    movk    x8, (%target >> 32 & 0xffff), lsl #32
+            //    movk    x8, (%target >> 48 & 0xffff), lsl #48
+            // 2. br x8
+
+            originalFunctionPointer0.pointee =
+                (0xd2800008 | (UInt64(targetAddress & 0xffff) << 5)) |
+                (0xf2a00008 | UInt64(targetAddress >> 16 & 0xffff) << 5) << 32
+            originalFunctionPointer8.pointee =
+                (0xf2c00008 | UInt64(targetAddress >> 32 & 0xffff) << 5) |
+                (0xf2e00008 | UInt64(targetAddress >> 48 & 0xffff) << 5) << 32
+            originalFunctionPointer16.pointee = 0xd61f0100
+
+            #elseif arch(x86_64)
             // 1. mov rax %target
             originalFunctionPointer0.pointee = 0xb848 | targetAddress << 16
             // 2. jmp rax
             originalFunctionPointer8.pointee = 0xe0ff << 16 | targetAddress >> 48
+            #else
+            #error("Unsupported machine architecture")
+            #endif
         }
     }
     
@@ -106,6 +132,7 @@ class CFunctionInjector {
         writeText {
             originalFunctionPointer0.pointee = escapedInstructionBytes0
             originalFunctionPointer8.pointee = escapedInstructionBytes8
+            originalFunctionPointer16.pointee = escapedInstructionBytes16
         }
     }
 }
