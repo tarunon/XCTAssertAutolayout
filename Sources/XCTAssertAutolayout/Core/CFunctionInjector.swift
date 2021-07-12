@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import libkern
 
 class CFunctionInjector {
     struct Error : LocalizedError, CustomStringConvertible {
@@ -81,6 +82,7 @@ class CFunctionInjector {
         if status == -1 {
             fatalError("failed to add exec flag to memory protection: errno=\(errno)")
         }
+        sys_icache_invalidate(textRange.start, textRange.size)
     }
     /// Inject c function to c function.
     /// Ref: https://github.com/thomasfinch/CRuntimeFunctionHooker/blob/master/inject.c
