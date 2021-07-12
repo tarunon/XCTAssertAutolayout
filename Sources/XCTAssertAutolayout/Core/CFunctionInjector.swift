@@ -16,12 +16,12 @@ class CFunctionInjector {
         var errorDescription: String? { return description }
     }
     
-    var originalFunctionPointer0: UnsafeMutablePointer<UInt64>
-    var originalFunctionPointer8: UnsafeMutablePointer<UInt64>
-    var originalFunctionPointer16: UnsafeMutablePointer<UInt64>
-    var escapedInstructionBytes0: UInt64
-    var escapedInstructionBytes8: UInt64
-    var escapedInstructionBytes16: UInt64
+    var originalFunctionPointer0: UnsafeMutablePointer<Int64>
+    var originalFunctionPointer8: UnsafeMutablePointer<Int64>
+    var originalFunctionPointer16: UnsafeMutablePointer<Int64>
+    var escapedInstructionBytes0: Int64
+    var escapedInstructionBytes8: Int64
+    var escapedInstructionBytes16: Int64
     let textRange: (start: UnsafeMutableRawPointer?, size: Int)
     
     /// Initialize CFunctionInjector object.
@@ -60,7 +60,7 @@ class CFunctionInjector {
         let pageStart = start & -pageSize
         let size = end - pageStart
         self.textRange = (UnsafeMutableRawPointer(bitPattern: pageStart), size)
-        self.originalFunctionPointer0 = target.assumingMemoryBound(to: UInt64.self)
+        self.originalFunctionPointer0 = target.assumingMemoryBound(to: Int64.self)
         self.escapedInstructionBytes0 = originalFunctionPointer0.pointee
         self.originalFunctionPointer8 = UnsafeMutablePointer(bitPattern: Int(bitPattern: target) + 8)!
         self.escapedInstructionBytes8 = originalFunctionPointer8.pointee
@@ -109,11 +109,11 @@ class CFunctionInjector {
             // 2. br x8
 
             originalFunctionPointer0.pointee =
-                (0xd2800008 | (UInt64(targetAddress & 0xffff) << 5)) |
-                (0xf2a00008 | UInt64(targetAddress >> 16 & 0xffff) << 5) << 32
+                (0xd2800008 | (Int64(targetAddress & 0xffff) << 5)) |
+                (0xf2a00008 | Int64(targetAddress >> 16 & 0xffff) << 5) << 32
             originalFunctionPointer8.pointee =
-                (0xf2c00008 | UInt64(targetAddress >> 32 & 0xffff) << 5) |
-                (0xf2e00008 | UInt64(targetAddress >> 48 & 0xffff) << 5) << 32
+                (0xf2c00008 | Int64(targetAddress >> 32 & 0xffff) << 5) |
+                (0xf2e00008 | Int64(targetAddress >> 48 & 0xffff) << 5) << 32
             originalFunctionPointer16.pointee = 0xd61f0100
 
             #elseif arch(x86_64)
