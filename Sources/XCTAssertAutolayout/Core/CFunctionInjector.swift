@@ -66,23 +66,26 @@ class CFunctionInjector {
         self.escapedInstructionBytes8 = originalFunctionPointer8.pointee
         self.originalFunctionPointer16 = UnsafeMutablePointer(bitPattern: Int(bitPattern: target) + 16)!
         self.escapedInstructionBytes16 = originalFunctionPointer16.pointee
+
+        // Ensure that mprotect works on the environment
+        try writeText {}
     }
     
     deinit {
-        reset()
+        try! reset()
     }
     
     /// Disable EXEC and write TEXT segment memory, then enable EXEC again.
     /// Ref: https://developer.apple.com/documentation/apple-silicon/porting-just-in-time-compilers-to-apple-silicon
-    private func writeText(_ writer: () -> Void) {
+    private func writeText(_ writer: () -> Void) throws {
         var status = mprotect(textRange.start, textRange.size, PROT_READ | PROT_WRITE)
         if status == -1 {
-            fatalError("failed to add write flag to memory protection: errno=\(errno)")
+            throw Error(message: "failed to add write flag to memory protection: errno=\(errno)")
         }
         writer()
         status = mprotect(textRange.start, textRange.size, PROT_READ | PROT_EXEC)
         if status == -1 {
-            fatalError("failed to add exec flag to memory protection: errno=\(errno)")
+            throw Error(message: "failed to add exec flag to memory protection: errno=\(errno)")
         }
         sys_icache_invalidate(textRange.start, textRange.size)
     }
@@ -91,9 +94,9 @@ class CFunctionInjector {
     /// 
     /// - Parameters:
     ///   - destination: c function pointer.
-    func inject(_ destination: UnsafeRawPointer) {
+    func inject(_ destination: UnsafeRawPointer) throws {
         assert(Thread.isMainThread)
-        writeText {
+        try writeText {
             // Set the first instruction of the original function to be a jump to the replacement function.
 
             let targetAddress = Int64(Int(bitPattern: destination))
@@ -131,9 +134,9 @@ class CFunctionInjector {
     /// Ref: https://github.com/thomasfinch/CRuntimeFunctionHooker/blob/master/inject.c
     ///
     /// - Parameter symbol: c function name.
-    func reset() {
+    func reset() throws {
         assert(Thread.isMainThread)
-        writeText {
+        try writeText {
             originalFunctionPointer0.pointee = escapedInstructionBytes0
             originalFunctionPointer8.pointee = escapedInstructionBytes8
             originalFunctionPointer16.pointee = escapedInstructionBytes16
