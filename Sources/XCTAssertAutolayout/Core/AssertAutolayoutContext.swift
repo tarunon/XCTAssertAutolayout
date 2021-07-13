@@ -18,9 +18,9 @@ var injector: CFunctionInjector?
 // make c function pointer by convention attribute
 let hookedUIViewAlertForUnsatisfiableConstraints: (@convention(c) (NSLayoutConstraint, [NSLayoutConstraint]) -> Void) = { (constraint: NSLayoutConstraint, allConstraints: [NSLayoutConstraint]) in
     _catchAutolayoutError?(constraint, allConstraints)
-    try! injector?.reset()
+    injector?.reset()
     UIViewAlertForUnsatisfiableConstraints(constraint, allConstraints)
-    try! injector?.inject(hookedUIViewAlertForUnsatisfiableConstraintsPointer)
+    injector?.inject(hookedUIViewAlertForUnsatisfiableConstraintsPointer)
 }
 
 public class AssertAutolayoutContext {
@@ -72,13 +72,14 @@ class AssertAutolayoutContextInternal {
                 _assert("XCTAssertAutolayout should run in iPhoneSimulator, cannot run on real Devices. (\(error))", file, line)
             }
         }
+        
         hookedUIViewAlertForUnsatisfiableConstraintsPointer = unsafeBitCast(hookedUIViewAlertForUnsatisfiableConstraints, to: UnsafeRawPointer.self)
-        try! injector?.inject(hookedUIViewAlertForUnsatisfiableConstraintsPointer)
+        injector?.inject(hookedUIViewAlertForUnsatisfiableConstraintsPointer)
     }
     
     func finalize() {
         _catchAutolayoutError = nil
-        try! injector?.reset()
+        injector?.reset()
     }
     
     private func getViewController(_ responder: UIResponder) -> UIViewController? {

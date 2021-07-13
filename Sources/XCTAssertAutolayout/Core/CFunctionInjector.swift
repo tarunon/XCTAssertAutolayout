@@ -72,7 +72,7 @@ class CFunctionInjector {
     }
     
     deinit {
-        try! reset()
+        reset()
     }
     
     /// Disable EXEC and write TEXT segment memory, then enable EXEC again.
@@ -94,9 +94,9 @@ class CFunctionInjector {
     /// 
     /// - Parameters:
     ///   - destination: c function pointer.
-    func inject(_ destination: UnsafeRawPointer) throws {
+    func inject(_ destination: UnsafeRawPointer) {
         assert(Thread.isMainThread)
-        try writeText {
+        try! writeText {
             // Set the first instruction of the original function to be a jump to the replacement function.
 
             let targetAddress = Int64(Int(bitPattern: destination))
@@ -134,9 +134,9 @@ class CFunctionInjector {
     /// Ref: https://github.com/thomasfinch/CRuntimeFunctionHooker/blob/master/inject.c
     ///
     /// - Parameter symbol: c function name.
-    func reset() throws {
+    func reset() {
         assert(Thread.isMainThread)
-        try writeText {
+        try! writeText {
             originalFunctionPointer0.pointee = escapedInstructionBytes0
             originalFunctionPointer8.pointee = escapedInstructionBytes8
             originalFunctionPointer16.pointee = escapedInstructionBytes16
