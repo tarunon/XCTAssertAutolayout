@@ -21,6 +21,9 @@
 /* End PBXAggregateTarget section */
 
 /* Begin PBXBuildFile section */
+		D22915C026A2B373005E0B12 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D22915BF26A2B373005E0B12 /* UIKit.framework */; };
+		D22915C126A2B37C005E0B12 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D22915BF26A2B373005E0B12 /* UIKit.framework */; };
+		D22915C326A2B382005E0B12 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D22915C226A2B382005E0B12 /* XCTest.framework */; };
 		D22B9561229B5B0700345997 /* AmbiguousLayout.swift in Sources */ = {isa = PBXBuildFile; fileRef = D22B9560229B5B0700345997 /* AmbiguousLayout.swift */; };
 		D258BE892296889E008ED47E /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D258BE882296889E008ED47E /* AppDelegate.swift */; };
 		D258BE8B2296889E008ED47E /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D258BE8A2296889E008ED47E /* ViewController.swift */; };
@@ -81,6 +84,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		D22915BF26A2B373005E0B12 /* UIKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = UIKit.framework; path = Platforms/MacOSX.platform/Developer/SDKs/MacOSX11.3.sdk/System/iOSSupport/System/Library/Frameworks/UIKit.framework; sourceTree = DEVELOPER_DIR; };
+		D22915C226A2B382005E0B12 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Platforms/iPhoneOS.platform/Developer/Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		D22B9560229B5B0700345997 /* AmbiguousLayout.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = AmbiguousLayout.swift; sourceTree = "<group>"; };
 		D258BE862296889E008ED47E /* XCTAssertAutolayoutTestApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = XCTAssertAutolayoutTestApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		D258BE882296889E008ED47E /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -102,7 +107,7 @@
 		OBJ_6 /* Package.swift */ = {isa = PBXFileReference; explicitFileType = sourcecode.swift; path = Package.swift; sourceTree = "<group>"; };
 		OBJ_9 /* dummy.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = dummy.m; sourceTree = "<group>"; };
 		"XCTAssertAutolayout::CXCTAssertAutolayout::Product" /* CXCTAssertAutolayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = CXCTAssertAutolayout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
-		"XCTAssertAutolayout::XCTAssertAutolayout::Product" /* XCTAssertAutolayout.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = XCTAssertAutolayout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		"XCTAssertAutolayout::XCTAssertAutolayout::Product" /* XCTAssertAutolayout.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; path = XCTAssertAutolayout.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		"XCTAssertAutolayout::XCTAssertAutolayoutTests::Product" /* XCTAssertAutolayoutTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; path = XCTAssertAutolayoutTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
@@ -118,6 +123,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
+				D22915C026A2B373005E0B12 /* UIKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -125,6 +131,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 0;
 			files = (
+				D22915C326A2B382005E0B12 /* XCTest.framework in Frameworks */,
+				D22915C126A2B37C005E0B12 /* UIKit.framework in Frameworks */,
 				OBJ_53 /* CXCTAssertAutolayout.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -141,6 +149,15 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		D22915BE26A2B372005E0B12 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				D22915C226A2B382005E0B12 /* XCTest.framework */,
+				D22915BF26A2B373005E0B12 /* UIKit.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
 		D258BE872296889E008ED47E /* XCTAssertAutolayoutTestApp */ = {
 			isa = PBXGroup;
 			children = (
@@ -232,6 +249,7 @@
 				OBJ_24 /* Products */,
 				OBJ_29 /* Readme */,
 				OBJ_32 /* README.md */,
+				D22915BE26A2B372005E0B12 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -648,8 +666,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				OTHER_SWIFT_FLAGS = "-DXcode";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE DEBUG";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				USE_HEADERMAP = NO;
@@ -737,8 +754,7 @@
 				MACOSX_DEPLOYMENT_TARGET = 10.10;
 				OTHER_SWIFT_FLAGS = "-DXcode";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SDKROOT = macosx;
-				SUPPORTED_PLATFORMS = "macosx iphoneos iphonesimulator appletvos appletvsimulator watchos watchsimulator";
+				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "$(inherited) SWIFT_PACKAGE";
 				SWIFT_OPTIMIZATION_LEVEL = "-Owholemodule";
 				USE_HEADERMAP = NO;
@@ -748,6 +764,7 @@
 		OBJ_44 /* Debug */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
@@ -779,6 +796,7 @@
 		OBJ_45 /* Release */ = {
 			isa = XCBuildConfiguration;
 			buildSettings = {
+				ENABLE_BITCODE = NO;
 				ENABLE_TESTABILITY = YES;
 				FRAMEWORK_SEARCH_PATHS = (
 					"$(inherited)",
