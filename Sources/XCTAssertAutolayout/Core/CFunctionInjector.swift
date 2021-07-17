@@ -101,7 +101,7 @@ class CFunctionInjector {
 
             let targetAddress = Int64(Int(bitPattern: destination))
 
-            #if arch(arm64)
+            #if arch(arm64) || arch(arm)
             // Since x8 is not used as indirect result location,
             // so it can be used to point the trampoline.
             // 1. mov     x8, %target
@@ -119,7 +119,7 @@ class CFunctionInjector {
                 (0xf2e00008 | Int64(targetAddress >> 48 & 0xffff) << 5) << 32
             originalFunctionPointer16.pointee = 0xd61f0100
 
-            #elseif arch(x86_64)
+            #elseif arch(x86_64) || arch(i386)
             // 1. mov rax %target
             originalFunctionPointer0.pointee = 0xb848 | targetAddress << 16
             // 2. jmp rax
